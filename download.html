@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>机甲对战小游戏 - 下载</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Press Start 2P', monospace, Arial, sans-serif;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo h1 {
+      font-size: 24px;
+      color: #ffd700;
+      text-shadow: 0 0 20px #ffd700, 0 0 40px #ff8800;
+      margin-bottom: 10px;
+      letter-spacing: 4px;
+    }
+    .logo p {
+      font-size: 10px;
+      color: #4a4a5a;
+      letter-spacing: 2px;
+    }
+    .download-card {
+      background: rgba(26, 26, 46, 0.8);
+      border: 2px solid #00d4ff;
+      border-radius: 8px;
+      padding: 30px 40px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+    .download-btn {
+      display: inline-block;
+      padding: 15px 40px;
+      background: linear-gradient(180deg, #ffd700 0%, #cc9900 100%);
+      color: #0a0a1a;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      border-radius: 4px;
+      box-shadow: 0 4px 0 #996600, 0 0 20px rgba(255, 215, 0, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #996600, 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+    .download-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #996600, 0 0 10px rgba(255, 215, 0, 0.2);
+    }
+    .info {
+      margin-top: 20px;
+      font-size: 10px;
+      color: #888899;
+      line-height: 1.6;
+    }
+    .info ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .info li {
+      margin-bottom: 8px;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 8px;
+      color: #4a4a5a;
+    }
+    .pixel-border {
+      position: relative;
+    }
+    .pixel-border::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid #ff3366;
+      border-radius: 12px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <h1>MECHA BATTLE</h1>
+    <p>PIXEL ARENA</p>
+  </div>
+
+  <div class="download-card pixel-border">
+    <a href="mecha-battle-minigame.zip" download class="download-btn">
+      下载游戏包
+    </a>
+    
+    <div class="info">
+      <p style="margin-bottom: 10px; color: #00d4ff;">📁 包内容：</p>
+      <ul>
+        <li>• game.json - 游戏配置</li>
+        <li>• app.json - 应用配置</li>
+        <li>• main.js - 入口文件</li>
+        <li>• src/game/ - 游戏核心代码</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>微信小游戏平台适配版本</p>
+    <p>直接导入微信开发者工具即可使用</p>
+  </div>
+</body>
+</html>
