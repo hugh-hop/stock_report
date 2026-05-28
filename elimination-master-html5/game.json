@@ -1,0 +1,78 @@
+{
+  "create-date": "2026-05-28",
+  "engine": "html5",
+  "subContext": "",
+  "projectname": "elimination-master-html5",
+  "composition": "landscape",
+  "minPlatformVersion": "1.0.0",
+  "deviceOrientation": "portrait",
+  "showStatusBar": false,
+  "networkTimeout": 60000,
+  "workers": "workers",
+  "subpackages": [],
+  "permission": [
+    {
+      "scope": "userLocation",
+      "desc": "您的位置信息将用于游戏排名功能"
+    }
+  ],
+  "lazyCodeLoading": "requiredComponents",
+  "function": [],
+  "permission": [],
+  "requireBackgroundModes": [
+    "audio"
+  ],
+  "uses": [],
+  "tabBar": null,
+  "preloadRule": {},
+  "window": {
+    "navigationBarTitleText": "消除达人",
+    "navigationBarBackgroundColor": "#667eea",
+    "navigationBarTextStyle": "white",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": true,
+    "backgroundColor": "#f5f5f5"
+  },
+  "debug": true,
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "disableUseStrict": false,
+    "minifyWXML": true,
+    "showES6CompileOption": false,
+    "useCompilerPlugins": false
+  },
+  "compileType": "game",
+  "libVersion": "2.25.0",
+  "appid": "",
+  "scene": 1001
+}

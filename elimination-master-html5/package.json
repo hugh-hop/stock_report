@@ -1,0 +1,23 @@
+{
+  "name": "elimination-master-html5",
+  "version": "1.0.0",
+  "description": "消除达人 - HTML5 微信小游戏",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve",
+    "dev": "npx http-server -p 8080",
+    "wechat": "node build-wechat.js"
+  },
+  "keywords": [
+    "game",
+    "html5",
+    "wechat-mini-game",
+    "elimination"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "serve": "^14.2.1"
+  }
+}
