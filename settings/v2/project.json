@@ -1,0 +1,27 @@
+{
+  "name": "消除达人",
+  "description": "一款微信小游戏，三消加拼图玩法",
+  "orientation": {
+    "portrait": true,
+    "landscapeRight": true,
+    "landscapeLeft": true,
+    "upsideDown": false
+  },
+  "id": "com.elimination.game",
+  "version": "1.0.0",
+  "appid": "",
+  "company": "个人",
+  "sdkType": "",
+  "template": {
+    "wechatgame": {
+      "sdkVersion": "2.21.5",
+      "appid": "",
+      "remoteServerUrl": "",
+      "subpackage": false,
+      "initialScene": "Start",
+      "orientation": {
+        "landscape": false
+      }
+    }
+  }
+}

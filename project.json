@@ -1,24 +1,29 @@
 
 {
-  "name": "elimination-master",
+  "name": "消除达人",
+  "title": "消除达人",
+  "description": "一款微信小游戏，三消加拼图玩法",
   "platforms": {
     "wechatgame": {}
   },
-  "editorVersion": "3.8.8",
-  "engineVersion": "3.8.0",
+  "editorVersion": "3.8.10",
+  "engineVersion": "3.8.1",
   "mainScene": "scenes/Start",
-  "debug": false,
+  "debug": true,
   "previewWidth": 750,
   "previewHeight": 1334,
   "isShowSpriteFrame": true,
   "modules": [
+    "2d",
+    "animation",
     "audio",
     "base",
     "canvas",
     "physics-2d",
     "renderer",
     "ui",
-    "webview"
+    "webview",
+    "tween"
   ],
   "packages": [],
   "nativePlugins": [],
