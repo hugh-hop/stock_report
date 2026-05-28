@@ -1,0 +1,11 @@
+{
+  "pages": [],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#0a0a1a",
+    "navigationBarTitleText": "机甲对战",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0a0a1a"
+  },
+  "sitemapLocation": "sitemap.json"
+}

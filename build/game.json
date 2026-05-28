@@ -1,0 +1,39 @@
+{
+  "deviceOrientation": "landscape",
+  "showStatusBar": false,
+  "networkTimeout": {
+    "request": 5000,
+    "connectSocket": 5000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false,
+  "urlCheck": false,
+  "es6": true,
+  "minified": true,
+  "optimization": {
+    "subpackages": false,
+    "treeShaking": {
+      "enable": true
+    }
+  },
+  "workers": "",
+  "gameServer": "",
+  "query": "",
+  "framework": "",
+  "renderMode": "canvas",
+  "sdkVersion": "3.0.0",
+  "package": {
+    "type": "game"
+  },
+  "usingComponents": false,
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取用户位置信息"
+    },
+    "scope.userInfo": {
+      "desc": "用于获取用户信息"
+    }
+  },
+  "requiredBackgroundModes": []
+}
