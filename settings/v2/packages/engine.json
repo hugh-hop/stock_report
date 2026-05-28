@@ -1,0 +1,13 @@
+
+{
+  "configs": {
+    "enableEngineNativeDebugger": false,
+    "showStats": false,
+    "showFPS": false,
+    "showDebug": false,
+    "showLog": true,
+    "logLevel": "info",
+    "debugPort": 50868,
+    "debugHost": "127.0.0.1"
+  }
+}

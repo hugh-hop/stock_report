@@ -1,0 +1,39 @@
+
+{
+  "name": "elimination-master",
+  "platforms": {
+    "wechatgame": {}
+  },
+  "editorVersion": "3.8.8",
+  "engineVersion": "3.8.0",
+  "mainScene": "scenes/Start",
+  "debug": false,
+  "previewWidth": 750,
+  "previewHeight": 1334,
+  "isShowSpriteFrame": true,
+  "modules": [
+    "audio",
+    "base",
+    "canvas",
+    "physics-2d",
+    "renderer",
+    "ui",
+    "webview"
+  ],
+  "packages": [],
+  "nativePlugins": [],
+  "assets": {
+    "scripts": {
+      "exportConditions": [
+        "USE_PRESET",
+        "CC_PRESET_WECHATGAME"
+      ]
+    }
+  },
+  "remoteServices": {
+    "enable": false,
+    "server": ""
+  },
+  "overrideSettings": {},
+  "meta": {}
+}

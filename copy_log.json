@@ -1,0 +1,150 @@
+{
+  "summary": {
+    "source_dir": "/workspace",
+    "target_dir": "/workspace",
+    "start_time": "2026-05-28T03:40:34.413905",
+    "end_time": "2026-05-28T03:40:34.415155",
+    "copied_count": 0,
+    "overwritten_count": 0,
+    "renamed_count": 0,
+    "skipped_count": 0
+  },
+  "operations": [
+    {
+      "timestamp": "2026-05-28T03:40:34.414057",
+      "action": "COPY",
+      "source": "/workspace/assets/audio/README.md",
+      "target": "/workspace/assets/audio/README.md",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/audio/README.md' and '/workspace/assets/audio/README.md' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414187",
+      "action": "COPY",
+      "source": "/workspace/assets/textures/README.md",
+      "target": "/workspace/assets/textures/README.md",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/textures/README.md' and '/workspace/assets/textures/README.md' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414260",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/utils/Constants.ts",
+      "target": "/workspace/assets/scripts/utils/Constants.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/utils/Constants.ts' and '/workspace/assets/scripts/utils/Constants.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414313",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/game/GridItem.ts",
+      "target": "/workspace/assets/scripts/game/GridItem.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/game/GridItem.ts' and '/workspace/assets/scripts/game/GridItem.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414367",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/SocialManager.ts",
+      "target": "/workspace/assets/scripts/managers/SocialManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/SocialManager.ts' and '/workspace/assets/scripts/managers/SocialManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414403",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/GridManager.ts",
+      "target": "/workspace/assets/scripts/managers/GridManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/GridManager.ts' and '/workspace/assets/scripts/managers/GridManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414438",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/AdManager.ts",
+      "target": "/workspace/assets/scripts/managers/AdManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/AdManager.ts' and '/workspace/assets/scripts/managers/AdManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414478",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/DataManager.ts",
+      "target": "/workspace/assets/scripts/managers/DataManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/DataManager.ts' and '/workspace/assets/scripts/managers/DataManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414514",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/GameManager.ts",
+      "target": "/workspace/assets/scripts/managers/GameManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/GameManager.ts' and '/workspace/assets/scripts/managers/GameManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414549",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/AudioManager.ts",
+      "target": "/workspace/assets/scripts/managers/AudioManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/AudioManager.ts' and '/workspace/assets/scripts/managers/AudioManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414582",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/managers/LevelManager.ts",
+      "target": "/workspace/assets/scripts/managers/LevelManager.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/managers/LevelManager.ts' and '/workspace/assets/scripts/managers/LevelManager.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414634",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/ui/StartUI.ts",
+      "target": "/workspace/assets/scripts/ui/StartUI.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/ui/StartUI.ts' and '/workspace/assets/scripts/ui/StartUI.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414672",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/ui/LevelSelectUI.ts",
+      "target": "/workspace/assets/scripts/ui/LevelSelectUI.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/ui/LevelSelectUI.ts' and '/workspace/assets/scripts/ui/LevelSelectUI.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414709",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/ui/GameUI.ts",
+      "target": "/workspace/assets/scripts/ui/GameUI.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/ui/GameUI.ts' and '/workspace/assets/scripts/ui/GameUI.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414743",
+      "action": "COPY",
+      "source": "/workspace/assets/scripts/ui/ResultUI.ts",
+      "target": "/workspace/assets/scripts/ui/ResultUI.ts",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/scripts/ui/ResultUI.ts' and '/workspace/assets/scripts/ui/ResultUI.ts' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.414804",
+      "action": "COPY",
+      "source": "/workspace/assets/data/LevelConfig.json",
+      "target": "/workspace/assets/data/LevelConfig.json",
+      "status": "ERROR",
+      "reason": "'/workspace/assets/data/LevelConfig.json' and '/workspace/assets/data/LevelConfig.json' are the same file"
+    },
+    {
+      "timestamp": "2026-05-28T03:40:34.415063",
+      "action": "GENERATE",
+      "source": "import-config.json",
+      "target": "/workspace/settings/import-config.json",
+      "status": "CREATED",
+      "reason": "导入配置已生成"
+    }
+  ]
+}

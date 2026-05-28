@@ -1,0 +1,19 @@
+{
+  "texture": {
+    "default": {
+      "type": "png",
+      "width": 2048,
+      "height": 2048,
+      "format": "compressed",
+      "premultiplyAlpha": true,
+      "mipmap": false
+    }
+  },
+  "audio": {
+    "default": {
+      "loadMode": 1,
+      "compress": true,
+      "quality": 0.7
+    }
+  }
+}

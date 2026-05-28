@@ -1,0 +1,1098 @@
+
+{
+  "__type__": "cc.Scene",
+  "_name": "Start",
+  "_objFlags": 0,
+  "_children": [
+    {
+      "__type__": "cc.Node",
+      "_name": "Canvas",
+      "_objFlags": 0,
+      "_children": [
+        {
+          "__type__": "cc.Node",
+          "_name": "Logo",
+          "_objFlags": 0,
+          "_children": [],
+          "_parent": null,
+          "_active": true,
+          "_components": [
+            {
+              "__type__": "cc.Label",
+              "_name": "",
+              "_objFlags": 0,
+              "_enabled": true,
+              "string": "消除达人",
+              "fontSize": 64,
+              "bold": true,
+              "color": {
+                "__type__": "cc.Color",
+                "r": 255,
+                "g": 107,
+                "b": 53,
+                "a": 255
+              },
+              "horizontalAlign": 1,
+              "verticalAlign": 1
+            }
+          ],
+          "_position": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 200,
+            "z": 0
+          },
+          "_rotation": {
+            "__type__": "cc.Quat",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "_scale": {
+            "__type__": "cc.Vec3",
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "_eulerAngles": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_anchorPoint": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          },
+          "_opacity": 255
+        },
+        {
+          "__type__": "cc.Node",
+          "_name": "StartButton",
+          "_objFlags": 0,
+          "_children": [
+            {
+              "__type__": "cc.Node",
+              "_name": "Label",
+              "_objFlags": 0,
+              "_children": [],
+              "_parent": null,
+              "_active": true,
+              "_components": [
+                {
+                  "__type__": "cc.Label",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "string": "开始游戏",
+                  "fontSize": 36,
+                  "bold": true,
+                  "color": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 255,
+                    "b": 255,
+                    "a": 255
+                  },
+                  "horizontalAlign": 1,
+                  "verticalAlign": 1
+                }
+              ],
+              "_position": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_rotation": {
+                "__type__": "cc.Quat",
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "_scale": {
+                "__type__": "cc.Vec3",
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "_eulerAngles": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_anchorPoint": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              },
+              "_opacity": 255
+            }
+          ],
+          "_parent": null,
+          "_active": true,
+          "_components": [
+            {
+              "__type__": "cc.Button",
+              "_name": "",
+              "_objFlags": 0,
+              "_enabled": true,
+              "interactable": true,
+              "enableAutoGrayEffect": true,
+              "transition": 1,
+              "normalColor": {
+                "__type__": "cc.Color",
+                "r": 78,
+                "g": 205,
+                "b": 196,
+                "a": 255
+              },
+              "pressedColor": {
+                "__type__": "cc.Color",
+                "r": 62,
+                "g": 164,
+                "b": 157,
+                "a": 255
+              },
+              "hoverColor": {
+                "__type__": "cc.Color",
+                "r": 98,
+                "g": 225,
+                "b": 216,
+                "a": 255
+              },
+              "disabledColor": {
+                "__type__": "cc.Color",
+                "r": 128,
+                "g": 128,
+                "b": 128,
+                "a": 255
+              },
+              "duration": 0.1
+            },
+            {
+              "__type__": "cc.Sprite",
+              "_name": "",
+              "_objFlags": 0,
+              "_enabled": true,
+              "type": 1,
+              "sizeMode": 5,
+              "fillCenter": {
+                "__type__": "cc.Rect",
+                "x": 10,
+                "y": 10,
+                "width": 10,
+                "height": 10
+              }
+            }
+          ],
+          "_position": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_rotation": {
+            "__type__": "cc.Quat",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "_scale": {
+            "__type__": "cc.Vec3",
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "_eulerAngles": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_anchorPoint": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          },
+          "_opacity": 255,
+          "_contentSize": {
+            "__type__": "cc.Size",
+            "width": 200,
+            "height": 80
+          }
+        },
+        {
+          "__type__": "cc.Node",
+          "_name": "DailyGiftButton",
+          "_objFlags": 0,
+          "_children": [
+            {
+              "__type__": "cc.Node",
+              "_name": "Label",
+              "_objFlags": 0,
+              "_children": [],
+              "_parent": null,
+              "_active": true,
+              "_components": [
+                {
+                  "__type__": "cc.Label",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "string": "🎁 每日礼包",
+                  "fontSize": 28,
+                  "bold": false,
+                  "color": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 230,
+                    "b": 109,
+                    "a": 255
+                  },
+                  "horizontalAlign": 1,
+                  "verticalAlign": 1
+                }
+              ],
+              "_position": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_rotation": {
+                "__type__": "cc.Quat",
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "_scale": {
+                "__type__": "cc.Vec3",
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "_eulerAngles": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_anchorPoint": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              },
+              "_opacity": 255
+            }
+          ],
+          "_parent": null,
+          "_active": true,
+          "_components": [
+            {
+              "__type__": "cc.Button",
+              "_name": "",
+              "_objFlags": 0,
+              "_enabled": true,
+              "interactable": true,
+              "enableAutoGrayEffect": true,
+              "transition": 1,
+              "normalColor": {
+                "__type__": "cc.Color",
+                "r": 255,
+                "g": 159,
+                "b": 28,
+                "a": 255
+              },
+              "pressedColor": {
+                "__type__": "cc.Color",
+                "r": 204,
+                "g": 127,
+                "b": 22,
+                "a": 255
+              },
+              "hoverColor": {
+                "__type__": "cc.Color",
+                "r": 255,
+                "g": 179,
+                "b": 68,
+                "a": 255
+              },
+              "disabledColor": {
+                "__type__": "cc.Color",
+                "r": 128,
+                "g": 128,
+                "b": 128,
+                "a": 255
+              },
+              "duration": 0.1
+            },
+            {
+              "__type__": "cc.Sprite",
+              "_name": "",
+              "_objFlags": 0,
+              "_enabled": true,
+              "type": 1,
+              "sizeMode": 5,
+              "fillCenter": {
+                "__type__": "cc.Rect",
+                "x": 10,
+                "y": 10,
+                "width": 10,
+                "height": 10
+              }
+            }
+          ],
+          "_position": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": -120,
+            "z": 0
+          },
+          "_rotation": {
+            "__type__": "cc.Quat",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "_scale": {
+            "__type__": "cc.Vec3",
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "_eulerAngles": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_anchorPoint": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          },
+          "_opacity": 255,
+          "_contentSize": {
+            "__type__": "cc.Size",
+            "width": 180,
+            "height": 60
+          }
+        },
+        {
+          "__type__": "cc.Node",
+          "_name": "CoinsDisplay",
+          "_objFlags": 0,
+          "_children": [
+            {
+              "__type__": "cc.Node",
+              "_name": "CoinsLabel",
+              "_objFlags": 0,
+              "_children": [],
+              "_parent": null,
+              "_active": true,
+              "_components": [
+                {
+                  "__type__": "cc.Label",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "string": "💎 100",
+                  "fontSize": 24,
+                  "bold": true,
+                  "color": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 215,
+                    "b": 0,
+                    "a": 255
+                  },
+                  "horizontalAlign": 2,
+                  "verticalAlign": 1
+                }
+              ],
+              "_position": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_rotation": {
+                "__type__": "cc.Quat",
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "_scale": {
+                "__type__": "cc.Vec3",
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "_eulerAngles": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_anchorPoint": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 0.5
+              },
+              "_opacity": 255
+            }
+          ],
+          "_parent": null,
+          "_active": true,
+          "_components": [],
+          "_position": {
+            "__type__": "cc.Vec3",
+            "x": 350,
+            "y": 580,
+            "z": 0
+          },
+          "_rotation": {
+            "__type__": "cc.Quat",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "_scale": {
+            "__type__": "cc.Vec3",
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "_eulerAngles": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_anchorPoint": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          },
+          "_opacity": 255
+        },
+        {
+          "__type__": "cc.Node",
+          "_name": "DailyGiftPanel",
+          "_objFlags": 0,
+          "_children": [
+            {
+              "__type__": "cc.Node",
+              "_name": "Title",
+              "_objFlags": 0,
+              "_children": [],
+              "_parent": null,
+              "_active": true,
+              "_components": [
+                {
+                  "__type__": "cc.Label",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "string": "🎁 每日礼包",
+                  "fontSize": 48,
+                  "bold": true,
+                  "color": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 230,
+                    "b": 109,
+                    "a": 255
+                  },
+                  "horizontalAlign": 1,
+                  "verticalAlign": 1
+                }
+              ],
+              "_position": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 100,
+                "z": 0
+              },
+              "_rotation": {
+                "__type__": "cc.Quat",
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "_scale": {
+                "__type__": "cc.Vec3",
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "_eulerAngles": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_anchorPoint": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              },
+              "_opacity": 255
+            },
+            {
+              "__type__": "cc.Node",
+              "_name": "ClaimButton",
+              "_objFlags": 0,
+              "_children": [
+                {
+                  "__type__": "cc.Node",
+                  "_name": "Label",
+                  "_objFlags": 0,
+                  "_children": [],
+                  "_parent": null,
+                  "_active": true,
+                  "_components": [
+                    {
+                      "__type__": "cc.Label",
+                      "_name": "",
+                      "_objFlags": 0,
+                      "_enabled": true,
+                      "string": "📺 看视频领取",
+                      "fontSize": 32,
+                      "bold": true,
+                      "color": {
+                        "__type__": "cc.Color",
+                        "r": 255,
+                        "g": 255,
+                        "b": 255,
+                        "a": 255
+                      },
+                      "horizontalAlign": 1,
+                      "verticalAlign": 1
+                    }
+                  ],
+                  "_position": {
+                    "__type__": "cc.Vec3",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "_rotation": {
+                    "__type__": "cc.Quat",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "_scale": {
+                    "__type__": "cc.Vec3",
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "_eulerAngles": {
+                    "__type__": "cc.Vec3",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "_anchorPoint": {
+                    "__type__": "cc.Vec2",
+                    "x": 0.5,
+                    "y": 0.5
+                  },
+                  "_opacity": 255
+                }
+              ],
+              "_parent": null,
+              "_active": true,
+              "_components": [
+                {
+                  "__type__": "cc.Button",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "interactable": true,
+                  "enableAutoGrayEffect": true,
+                  "transition": 1,
+                  "normalColor": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 107,
+                    "b": 53,
+                    "a": 255
+                  },
+                  "pressedColor": {
+                    "__type__": "cc.Color",
+                    "r": 204,
+                    "g": 86,
+                    "b": 42,
+                    "a": 255
+                  },
+                  "hoverColor": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 137,
+                    "b": 83,
+                    "a": 255
+                  },
+                  "disabledColor": {
+                    "__type__": "cc.Color",
+                    "r": 128,
+                    "g": 128,
+                    "b": 128,
+                    "a": 255
+                  },
+                  "duration": 0.1
+                },
+                {
+                  "__type__": "cc.Sprite",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "type": 1,
+                  "sizeMode": 5,
+                  "fillCenter": {
+                    "__type__": "cc.Rect",
+                    "x": 10,
+                    "y": 10,
+                    "width": 10,
+                    "height": 10
+                  }
+                }
+              ],
+              "_position": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_rotation": {
+                "__type__": "cc.Quat",
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "_scale": {
+                "__type__": "cc.Vec3",
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "_eulerAngles": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_anchorPoint": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              },
+              "_opacity": 255,
+              "_contentSize": {
+                "__type__": "cc.Size",
+                "width": 250,
+                "height": 80
+              }
+            },
+            {
+              "__type__": "cc.Node",
+              "_name": "SkipButton",
+              "_objFlags": 0,
+              "_children": [
+                {
+                  "__type__": "cc.Node",
+                  "_name": "Label",
+                  "_objFlags": 0,
+                  "_children": [],
+                  "_parent": null,
+                  "_active": true,
+                  "_components": [
+                    {
+                      "__type__": "cc.Label",
+                      "_name": "",
+                      "_objFlags": 0,
+                      "_enabled": true,
+                      "string": "跳过",
+                      "fontSize": 28,
+                      "bold": false,
+                      "color": {
+                        "__type__": "cc.Color",
+                        "r": 128,
+                        "g": 128,
+                        "b": 128,
+                        "a": 255
+                      },
+                      "horizontalAlign": 1,
+                      "verticalAlign": 1
+                    }
+                  ],
+                  "_position": {
+                    "__type__": "cc.Vec3",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "_rotation": {
+                    "__type__": "cc.Quat",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "_scale": {
+                    "__type__": "cc.Vec3",
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "_eulerAngles": {
+                    "__type__": "cc.Vec3",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "_anchorPoint": {
+                    "__type__": "cc.Vec2",
+                    "x": 0.5,
+                    "y": 0.5
+                  },
+                  "_opacity": 255
+                }
+              ],
+              "_parent": null,
+              "_active": true,
+              "_components": [
+                {
+                  "__type__": "cc.Button",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "interactable": true,
+                  "enableAutoGrayEffect": true,
+                  "transition": 1,
+                  "normalColor": {
+                    "__type__": "cc.Color",
+                    "r": 240,
+                    "g": 240,
+                    "b": 240,
+                    "a": 255
+                  },
+                  "pressedColor": {
+                    "__type__": "cc.Color",
+                    "r": 200,
+                    "g": 200,
+                    "b": 200,
+                    "a": 255
+                  },
+                  "hoverColor": {
+                    "__type__": "cc.Color",
+                    "r": 255,
+                    "g": 255,
+                    "b": 255,
+                    "a": 255
+                  },
+                  "disabledColor": {
+                    "__type__": "cc.Color",
+                    "r": 128,
+                    "g": 128,
+                    "b": 128,
+                    "a": 255
+                  },
+                  "duration": 0.1
+                },
+                {
+                  "__type__": "cc.Sprite",
+                  "_name": "",
+                  "_objFlags": 0,
+                  "_enabled": true,
+                  "type": 1,
+                  "sizeMode": 5,
+                  "fillCenter": {
+                    "__type__": "cc.Rect",
+                    "x": 10,
+                    "y": 10,
+                    "width": 10,
+                    "height": 10
+                  }
+                }
+              ],
+              "_position": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": -100,
+                "z": 0
+              },
+              "_rotation": {
+                "__type__": "cc.Quat",
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "_scale": {
+                "__type__": "cc.Vec3",
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "_eulerAngles": {
+                "__type__": "cc.Vec3",
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "_anchorPoint": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              },
+              "_opacity": 255,
+              "_contentSize": {
+                "__type__": "cc.Size",
+                "width": 150,
+                "height": 60
+              }
+            }
+          ],
+          "_parent": null,
+          "_active": false,
+          "_components": [
+            {
+              "__type__": "cc.Sprite",
+              "_name": "",
+              "_objFlags": 0,
+              "_enabled": true,
+              "type": 0,
+              "sizeMode": 5,
+              "fillCenter": {
+                "__type__": "cc.Rect",
+                "x": 10,
+                "y": 10,
+                "width": 10,
+                "height": 10
+              }
+            }
+          ],
+          "_position": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_rotation": {
+            "__type__": "cc.Quat",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "_scale": {
+            "__type__": "cc.Vec3",
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "_eulerAngles": {
+            "__type__": "cc.Vec3",
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "_anchorPoint": {
+            "__type__": "cc.Vec2",
+            "x": 0.5,
+            "y": 0.5
+          },
+          "_opacity": 255,
+          "_contentSize": {
+            "__type__": "cc.Size",
+            "width": 400,
+            "height": 500
+          }
+        }
+      ],
+      "_parent": null,
+      "_active": true,
+      "_components": [
+        {
+          "__type__": "cc.Canvas",
+          "_name": "",
+          "_objFlags": 0,
+          "_enabled": true,
+          "targetTexture": null,
+          "cameraComponent": null,
+          "pixelRatio": 1,
+          "resizeMode": 2,
+          "fitWidth": true,
+          "fitHeight": true,
+          "alignCanvasWithScreen": true
+        },
+        {
+          "__type__": "cc.Widget",
+          "_name": "",
+          "_objFlags": 0,
+          "_enabled": true,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "isAlignLeft": true,
+          "isAlignRight": true,
+          "isAlignTop": true,
+          "isAlignBottom": true,
+          "target": null,
+          "alignMode": 0
+        }
+      ],
+      "_position": {
+        "__type__": "cc.Vec3",
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "_rotation": {
+        "__type__": "cc.Quat",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "_scale": {
+        "__type__": "cc.Vec3",
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "_eulerAngles": {
+        "__type__": "cc.Vec3",
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "_opacity": 255,
+      "_contentSize": {
+        "__type__": "cc.Size",
+        "width": 750,
+        "height": 1334
+      }
+    },
+    {
+      "__type__": "cc.Node",
+      "_name": "Camera",
+      "_objFlags": 0,
+      "_children": [],
+      "_parent": null,
+      "_active": true,
+      "_components": [
+        {
+          "__type__": "cc.Camera",
+          "_name": "",
+          "_objFlags": 0,
+          "_enabled": true,
+          "priority": 0,
+          "clearFlags": 1,
+          "backgroundColor": {
+            "__type__": "cc.Color",
+            "r": 245,
+            "g": 245,
+            "b": 245,
+            "a": 255
+          },
+          "ortho": true,
+          "orthographicSize": 667,
+          "nearClip": 0,
+          "farClip": 1000,
+          "fieldOfView": 60,
+          "zoomRatio": 1,
+          "targetTexture": null,
+          "cullingMask": 1
+        }
+      ],
+      "_position": {
+        "__type__": "cc.Vec3",
+        "x": 0,
+        "y": 0,
+        "z": 1000
+      },
+      "_rotation": {
+        "__type__": "cc.Quat",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "_scale": {
+        "__type__": "cc.Vec3",
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "_eulerAngles": {
+        "__type__": "cc.Vec3",
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "_anchorPoint": {
+        "__type__": "cc.Vec2",
+        "x": 0.5,
+        "y": 0.5
+      },
+      "_opacity": 255
+    }
+  ],
+  "_parent": null,
+  "_active": true,
+  "_components": [],
+  "_position": {
+    "__type__": "cc.Vec3",
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "_rotation": {
+    "__type__": "cc.Quat",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "w": 1
+  },
+  "_scale": {
+    "__type__": "cc.Vec3",
+    "x": 1,
+    "y": 1,
+    "z": 1
+  },
+  "_eulerAngles": {
+    "__type__": "cc.Vec3",
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "_anchorPoint": {
+    "__type__": "cc.Vec2",
+    "x": 0.5,
+    "y": 0.5
+  },
+  "_opacity": 255
+}
