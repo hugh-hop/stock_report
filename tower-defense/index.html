@@ -1,0 +1,2949 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>塔防觉醒</title>
+<style>
+:root {
+  --color-primary: #4A7BF7;
+  --color-primary-light: #6B93FF;
+  --color-primary-dark: #3A65D4;
+  --color-secondary: #FF8C42;
+  --color-secondary-light: #FFA366;
+  --color-accent-gold: #FFD23F;
+  --color-accent-green: #4ECB71;
+  --color-warning: #FF6B6B;
+  --color-purple: #A855F7;
+  --color-pink: #FF7EB3;
+  --color-text-primary: #1A1D2E;
+  --color-text-secondary: #5A607F;
+  --color-text-weak: #9CA3C0;
+  --color-bg: #F5F6FA;
+  --color-bg-dark: #E8EAF0;
+  --color-card: #FFFFFF;
+  --color-card-shadow: rgba(26, 29, 46, 0.08);
+  --color-overlay: rgba(26, 29, 46, 0.6);
+  --color-overlay-light: rgba(26, 29, 46, 0.3);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-xxl: 24px;
+  --radius-full: 9999px;
+  --spacing: 4px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --tabbar-height: 56px;
+  --font-num: 'Menlo', 'Courier New', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+body {
+  position: relative;
+}
+
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-bg);
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+
+.screen.active {
+  display: flex;
+}
+
+.screen.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.screen.slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.screen.slide-up {
+  animation: slideUp 0.3s ease forwards;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-overlay);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.dialog-overlay.active {
+  display: flex;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.dialog-box {
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(74, 123, 247, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(74, 123, 247, 0.8); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes countdown {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 251.2; }
+}
+
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(74, 123, 247, 0.35);
+}
+
+.btn-primary:active {
+  box-shadow: 0 2px 6px rgba(74, 123, 247, 0.25);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 140, 66, 0.35);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--color-accent-gold), #FFE066);
+  color: var(--color-text-primary);
+  box-shadow: 0 4px 12px rgba(255, 210, 63, 0.4);
+}
+
+.btn-green {
+  background: linear-gradient(135deg, var(--color-accent-green), #6FE094);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(78, 203, 113, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-ghost {
+  background: rgba(74, 123, 247, 0.1);
+  color: var(--color-primary);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: var(--radius-lg);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-round {
+  border-radius: var(--radius-full);
+}
+
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: 0 2px 12px var(--color-card-shadow);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-warning);
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+
+.resource-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 6px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.resource-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.resource-icon.gold { background: linear-gradient(135deg, #FFD23F, #FFA000); }
+.resource-icon.gem { background: linear-gradient(135deg, #A855F7, #7C3AED); }
+.resource-icon.energy { background: linear-gradient(135deg, #4ECB71, #22C55E); }
+
+.star {
+  color: #D1D5E0;
+  font-size: 16px;
+}
+
+.star.filled {
+  color: var(--color-accent-gold);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-bg-dark);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.progress-fill.primary { background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light)); }
+.progress-fill.gold { background: linear-gradient(90deg, var(--color-accent-gold), #FFE066); }
+.progress-fill.green { background: linear-gradient(90deg, var(--color-accent-green), #6FE094); }
+.progress-fill.purple { background: linear-gradient(90deg, var(--color-purple), #C084FC); }
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--tabbar-height) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: var(--color-card);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: stretch;
+  z-index: 900;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 10px;
+  color: var(--color-text-weak);
+  cursor: pointer;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.tab-item.active {
+  color: var(--color-primary);
+}
+
+.tab-item .tab-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.tab-item .tab-label {
+  font-weight: 600;
+}
+
+.tab-item.active .tab-icon {
+  animation: bounceIn 0.4s ease;
+}
+
+.rarity-border-common { border: 2px solid #C0C4D0; }
+.rarity-border-rare { border: 2px solid var(--color-primary); box-shadow: 0 0 8px rgba(74, 123, 247, 0.3); }
+.rarity-border-epic { border: 2px solid var(--color-purple); box-shadow: 0 0 8px rgba(168, 85, 247, 0.3); }
+.rarity-border-legendary { border: 2px solid var(--color-accent-gold); box-shadow: 0 0 12px rgba(255, 210, 63, 0.4); animation: glow 2s ease infinite; }
+
+.element-nature { color: #4ECB71; background: rgba(78, 203, 113, 0.12); }
+.element-fire { color: #FF8C42; background: rgba(255, 140, 66, 0.12); }
+.element-water { color: #4A7BF7; background: rgba(74, 123, 247, 0.12); }
+.element-thunder { color: #A855F7; background: rgba(168, 85, 247, 0.12); }
+.element-poison { color: #84CC16; background: rgba(132, 204, 22, 0.12); }
+.element-light { color: #FFD23F; background: rgba(255, 210, 63, 0.12); }
+.element-mech { color: #9CA3C0; background: rgba(156, 163, 192, 0.12); }
+.element-dark { color: #FF6B6B; background: rgba(255, 107, 107, 0.12); }
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#screen-launch {
+  background: linear-gradient(160deg, #1A1D2E 0%, #2D325A 40%, #4A7BF7 100%);
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.launch-logo {
+  text-align: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+.launch-logo .logo-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-purple));
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  box-shadow: 0 8px 32px rgba(74, 123, 247, 0.5);
+}
+
+.launch-logo .logo-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 12px rgba(74, 123, 247, 0.6);
+}
+
+.launch-logo .logo-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 8px;
+  letter-spacing: 6px;
+}
+
+.launch-loading {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.launch-loading .loading-bar {
+  width: 160px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto 8px;
+}
+
+.launch-loading .loading-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-accent-gold));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.launch-loading .loading-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#screen-home {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom) + 8px);
+}
+
+.home-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.player-detail .player-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.player-detail .player-level {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.home-resources {
+  display: flex;
+  gap: 8px;
+}
+
+.home-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px;
+}
+
+.function-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.function-item {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 16px 8px;
+  text-align: center;
+  box-shadow: 0 2px 12px var(--color-card-shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.function-item:active {
+  transform: scale(0.95);
+}
+
+.function-item .func-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 8px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.function-item .func-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.function-item .func-sub {
+  font-size: 10px;
+  color: var(--color-text-weak);
+  margin-top: 2px;
+}
+
+.func-icon.campaign { background: linear-gradient(135deg, #4A7BF7, #6B93FF); }
+.func-icon.challenge { background: linear-gradient(135deg, #FF8C42, #FFA366); }
+.func-icon.pvp { background: linear-gradient(135deg, #A855F7, #C084FC); }
+.func-icon.duel { background: linear-gradient(135deg, #FF7EB3, #FF9EC7); }
+.func-icon.daily { background: linear-gradient(135deg, #4ECB71, #6FE094); }
+.func-icon.checkin { background: linear-gradient(135deg, #FFD23F, #FFE066); }
+
+.activity-banner {
+  width: 100%;
+  height: 120px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #FF8C42, #FFD23F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
+}
+
+.activity-banner .banner-text {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.activity-banner .banner-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--color-warning);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+#screen-level-select {
+  background: linear-gradient(180deg, #E8ECFF 0%, var(--color-bg) 100%);
+}
+
+.level-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.level-header .back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px var(--color-card-shadow);
+  cursor: pointer;
+}
+
+.level-header .chapter-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.chapter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.chapter-nav .nav-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 2px 6px var(--color-card-shadow);
+  cursor: pointer;
+}
+
+.chapter-nav .chapter-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.level-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+  align-content: start;
+}
+
+.level-node {
+  aspect-ratio: 1;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 12px var(--color-card-shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.level-node:active {
+  transform: scale(0.95);
+}
+
+.level-node.locked {
+  opacity: 0.5;
+}
+
+.level-node.current {
+  border: 2px solid var(--color-primary);
+  animation: glow 2s ease infinite;
+}
+
+.level-node.boss {
+  background: linear-gradient(135deg, #FF6B6B, #FF8C42);
+}
+
+.level-node .node-num {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: var(--font-num);
+  color: var(--color-text-primary);
+}
+
+.level-node.boss .node-num {
+  color: #fff;
+}
+
+.level-node .node-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.level-node .node-label {
+  font-size: 10px;
+  color: var(--color-text-weak);
+}
+
+.level-node.boss .node-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#screen-battle {
+  background: #1A1D2E;
+  padding: 0;
+}
+
+.battle-canvas-wrap {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.battle-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: calc(var(--safe-top) + 8px) 12px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(26, 29, 46, 0.8) 0%, transparent 100%);
+  z-index: 10;
+}
+
+.battle-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.battle-wave {
+  background: rgba(74, 123, 247, 0.9);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.battle-hp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.battle-hp .hp-icon {
+  font-size: 16px;
+}
+
+.battle-hp .hp-bar {
+  width: 80px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.battle-hp .hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-warning), var(--color-accent-gold));
+  border-radius: 4px;
+  width: 100%;
+}
+
+.battle-hp .hp-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--font-num);
+  min-width: 32px;
+}
+
+.battle-pause-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.battle-speed-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.battle-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 12px calc(var(--safe-bottom) + 8px);
+  background: linear-gradient(0deg, rgba(26, 29, 46, 0.9) 0%, transparent 100%);
+  z-index: 10;
+}
+
+.tower-select-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tower-select-item {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tower-select-item.selected {
+  border-color: var(--color-primary);
+  background: rgba(74, 123, 247, 0.3);
+}
+
+.tower-select-item .tower-icon {
+  font-size: 22px;
+}
+
+.tower-select-item .tower-cost {
+  font-size: 10px;
+  color: var(--color-accent-gold);
+  font-family: var(--font-num);
+}
+
+.skill-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.skill-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.skill-btn.ready {
+  border-color: var(--color-accent-gold);
+  animation: pulse 1.5s ease infinite;
+}
+
+.skill-btn .skill-cd {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--font-num);
+}
+
+.tower-action-panel {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  background: rgba(26, 29, 46, 0.9);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  gap: 8px;
+  z-index: 15;
+}
+
+.tower-action-panel.active {
+  display: flex;
+}
+
+.tower-action-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 10px;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tower-action-btn.upgrade {
+  background: rgba(74, 123, 247, 0.4);
+}
+
+.tower-action-btn.sell {
+  background: rgba(255, 107, 107, 0.4);
+}
+
+.tower-action-btn .action-icon {
+  font-size: 18px;
+}
+
+#screen-rogue {
+  background: rgba(26, 29, 46, 0.85);
+  align-items: center;
+  justify-content: center;
+  z-index: 800;
+}
+
+.rogue-content {
+  text-align: center;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.rogue-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.rogue-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 20px;
+}
+
+.rogue-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  color: var(--color-accent-gold);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-num);
+  margin-bottom: 20px;
+}
+
+.rogue-cards {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.rogue-card {
+  flex: 1;
+  max-width: 110px;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 16px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.rogue-card:active {
+  transform: scale(0.95);
+}
+
+.rogue-card .card-rarity {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.rogue-card .card-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 8px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.rogue-card .card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.rogue-card .card-desc {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+#screen-result {
+  align-items: center;
+  justify-content: center;
+  z-index: 700;
+}
+
+.result-content {
+  text-align: center;
+  width: 100%;
+  padding: 0 24px;
+}
+
+.result-badge {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  animation: bounceIn 0.6s ease;
+}
+
+.result-badge.victory {
+  background: linear-gradient(135deg, var(--color-accent-gold), #FFA000);
+  box-shadow: 0 8px 24px rgba(255, 210, 63, 0.4);
+}
+
+.result-badge.defeat {
+  background: linear-gradient(135deg, var(--color-text-secondary), #3A3F5C);
+  box-shadow: 0 8px 24px rgba(90, 96, 127, 0.3);
+}
+
+.result-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.result-title.victory { color: var(--color-accent-gold); }
+.result-title.defeat { color: var(--color-text-secondary); }
+
+.result-stars {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.result-stars .star {
+  font-size: 28px;
+}
+
+.result-rewards {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.result-rewards .rewards-title {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+
+.result-rewards .rewards-list {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.reward-item {
+  text-align: center;
+}
+
+.reward-item .reward-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 4px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.reward-item .reward-amount {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-num);
+  color: var(--color-text-primary);
+}
+
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item .stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: var(--font-num);
+  color: var(--color-primary);
+}
+
+.stat-item .stat-label {
+  font-size: 11px;
+  color: var(--color-text-weak);
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+}
+
+#screen-shop {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom) + 8px);
+}
+
+.shop-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shop-header .shop-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.shop-tabs {
+  display: flex;
+  padding: 0 16px;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.shop-tab {
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-card);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.shop-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.shop-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.shop-item {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 2px 12px var(--color-card-shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.shop-item:active {
+  transform: scale(0.95);
+}
+
+.shop-item .item-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.shop-item .item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.shop-item .item-desc {
+  font-size: 10px;
+  color: var(--color-text-weak);
+  margin-bottom: 8px;
+}
+
+.shop-item .item-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-num);
+}
+
+.shop-item .item-price.gem-price { color: var(--color-purple); }
+.shop-item .item-price.gold-price { color: var(--color-secondary); }
+
+#screen-upgrade {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom) + 8px);
+}
+
+.upgrade-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upgrade-header .upgrade-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.upgrade-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.tower-list {
+  width: 90px;
+  background: var(--color-card);
+  overflow-y: auto;
+  padding: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tower-list-item {
+  width: 74px;
+  height: 74px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tower-list-item.active {
+  border-color: var(--color-primary);
+  background: rgba(74, 123, 247, 0.08);
+}
+
+.tower-list-item .list-tower-icon {
+  font-size: 26px;
+}
+
+.tower-list-item .list-tower-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.tower-detail {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tower-detail-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.tower-detail-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 8px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.tower-detail-name {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.tower-detail-level {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-num);
+}
+
+.tower-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tower-stat {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tower-stat .stat-name {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.tower-stat .stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-num);
+}
+
+.skill-tree {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.skill-tree-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.skill-tree-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-node {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  border: 2px solid var(--color-bg-dark);
+  background: var(--color-bg);
+  transition: all 0.2s;
+}
+
+.skill-node.unlocked {
+  border-color: var(--color-primary);
+  background: rgba(74, 123, 247, 0.1);
+}
+
+.skill-node.available {
+  border-color: var(--color-accent-gold);
+  animation: pulse 2s ease infinite;
+}
+
+.skill-connector {
+  width: 2px;
+  height: 12px;
+  background: var(--color-bg-dark);
+}
+
+.skill-connector.active {
+  background: var(--color-primary);
+}
+
+.branch-select {
+  display: flex;
+  gap: 12px;
+}
+
+.branch-card {
+  flex: 1;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.branch-card.selected {
+  border-color: var(--color-primary);
+}
+
+.branch-card .branch-icon {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+.branch-card .branch-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.branch-card .branch-desc {
+  font-size: 10px;
+  color: var(--color-text-weak);
+}
+
+#screen-pvp {
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #1A1D2E 0%, #2D2050 40%, #A855F7 100%);
+}
+
+.pvp-content {
+  text-align: center;
+  width: 100%;
+  padding: 0 24px;
+}
+
+.pvp-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 32px;
+}
+
+.pvp-players {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.pvp-player {
+  text-align: center;
+}
+
+.pvp-player .pvp-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.pvp-player .pvp-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pvp-player .pvp-rank {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.pvp-vs {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--color-accent-gold);
+  text-shadow: 0 0 20px rgba(255, 210, 63, 0.5);
+  animation: pulse 1.5s ease infinite;
+}
+
+.pvp-match-btn {
+  width: 200px;
+  height: 56px;
+  border-radius: var(--radius-xxl);
+  background: linear-gradient(135deg, var(--color-purple), #C084FC);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+  animation: pulse 2s ease infinite;
+}
+
+.pvp-stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.pvp-stat {
+  text-align: center;
+}
+
+.pvp-stat .pvp-stat-val {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: var(--font-num);
+  color: #fff;
+}
+
+.pvp-stat .pvp-stat-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#screen-social {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom) + 8px);
+}
+
+.social-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-header .social-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.social-tabs {
+  display: flex;
+  padding: 0 16px;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.social-tab {
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-card);
+  cursor: pointer;
+}
+
+.social-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.social-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px var(--color-card-shadow);
+}
+
+.friend-item .friend-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.friend-item .friend-info {
+  flex: 1;
+}
+
+.friend-item .friend-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.friend-item .friend-status {
+  font-size: 11px;
+  color: var(--color-text-weak);
+}
+
+.friend-item .friend-action {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  margin-bottom: 6px;
+}
+
+.leaderboard-item .rank-num {
+  width: 24px;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: var(--font-num);
+  text-align: center;
+}
+
+.leaderboard-item .rank-num.top1 { color: var(--color-accent-gold); }
+.leaderboard-item .rank-num.top2 { color: #C0C4D0; }
+.leaderboard-item .rank-num.top3 { color: #CD7F32; }
+
+#screen-battlepass {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom) + 8px);
+}
+
+.bp-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bp-header .bp-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.bp-season-info {
+  padding: 0 16px;
+  margin-bottom: 12px;
+}
+
+.bp-season-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.bp-season-time {
+  font-size: 12px;
+  color: var(--color-text-weak);
+}
+
+.bp-tracks {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.bp-track {
+  flex: 1;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: 0 2px 12px var(--color-card-shadow);
+}
+
+.bp-track.free { border-top: 3px solid var(--color-accent-green); }
+.bp-track.paid { border-top: 3px solid var(--color-purple); }
+
+.bp-track-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.bp-track.free .bp-track-label { color: var(--color-accent-green); }
+.bp-track.paid .bp-track-label { color: var(--color-purple); }
+
+.bp-level-progress {
+  margin-bottom: 8px;
+}
+
+.bp-level-num {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-num);
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.bp-rewards-scroll {
+  flex: 1;
+  overflow-x: auto;
+  padding: 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bp-rewards-row {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 8px;
+}
+
+.bp-reward-node {
+  flex-shrink: 0;
+  width: 60px;
+  text-align: center;
+}
+
+.bp-reward-node .bp-node-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 4px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border: 2px solid var(--color-bg-dark);
+}
+
+.bp-reward-node.claimed .bp-node-icon {
+  border-color: var(--color-accent-green);
+  background: rgba(78, 203, 113, 0.1);
+}
+
+.bp-reward-node.current .bp-node-icon {
+  border-color: var(--color-primary);
+  animation: pulse 2s ease infinite;
+}
+
+.bp-reward-node .bp-node-level {
+  font-size: 10px;
+  color: var(--color-text-weak);
+  font-family: var(--font-num);
+}
+
+#screen-settings {
+  background: var(--color-bg);
+}
+
+.settings-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-header .back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px var(--color-card-shadow);
+  cursor: pointer;
+}
+
+.settings-header .settings-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.settings-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.settings-group {
+  margin-bottom: 20px;
+}
+
+.settings-group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-weak);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  margin-bottom: 4px;
+}
+
+.settings-item .setting-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.settings-item .setting-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slider-wrap input[type="range"] {
+  width: 100px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-bg-dark);
+  border-radius: 2px;
+  outline: none;
+}
+
+.slider-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 2px 6px rgba(74, 123, 247, 0.3);
+  cursor: pointer;
+}
+
+.slider-wrap .slider-val {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-num);
+  color: var(--color-text-secondary);
+  min-width: 28px;
+  text-align: right;
+}
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: var(--color-bg-dark);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-switch.on {
+  background: var(--color-primary);
+}
+
+.toggle-switch .toggle-knob {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch.on .toggle-knob {
+  transform: translateX(20px);
+}
+
+#dialog-pause .dialog-box {
+  text-align: center;
+}
+
+.pause-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.pause-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#dialog-branch .dialog-box {
+  text-align: center;
+}
+
+.branch-dialog-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.branch-dialog-cards {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.branch-dialog-card {
+  flex: 1;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 16px 10px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.branch-dialog-card.selected {
+  border-color: var(--color-primary);
+}
+
+.branch-dialog-card .bd-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.branch-dialog-card .bd-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.branch-dialog-card .bd-desc {
+  font-size: 11px;
+  color: var(--color-text-weak);
+}
+
+#dialog-shop-confirm .dialog-box {
+  text-align: center;
+}
+
+.confirm-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.confirm-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.confirm-desc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+}
+
+#dialog-revive .dialog-box {
+  text-align: center;
+}
+
+.revive-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-warning);
+  margin-bottom: 8px;
+}
+
+.revive-desc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+
+.revive-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.revive-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.revive-option .option-icon {
+  font-size: 20px;
+}
+
+#toast-container {
+  position: fixed;
+  top: calc(var(--safe-top) + 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(26, 29, 46, 0.9);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  animation: slideUp 0.3s ease forwards;
+  white-space: nowrap;
+  max-width: 300px;
+  text-align: center;
+}
+
+.toast.success { background: rgba(78, 203, 113, 0.9); }
+.toast.error { background: rgba(255, 107, 107, 0.9); }
+.toast.warning { background: rgba(255, 140, 66, 0.9); }
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.hiding {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+</style>
+</head>
+<body>
+
+<div id="screen-launch" class="screen active">
+  <div class="launch-logo">
+    <div class="logo-icon">🏰</div>
+    <div class="logo-title">塔防觉醒</div>
+    <div class="logo-subtitle">TOWER DEFENSE AWAKEN</div>
+  </div>
+  <div class="launch-loading">
+    <div class="loading-bar">
+      <div class="loading-fill" id="launchProgress"></div>
+    </div>
+    <div class="loading-text">正在加载资源...</div>
+  </div>
+</div>
+
+<div id="screen-home" class="screen">
+  <div class="home-header">
+    <div class="player-info">
+      <div class="player-avatar">🧙</div>
+      <div class="player-detail">
+        <div class="player-name">觉醒者</div>
+        <div class="player-level">Lv.28</div>
+      </div>
+    </div>
+    <div class="home-resources">
+      <div class="resource-bar">
+        <div class="resource-icon gold">🪙</div>
+        <span>12,580</span>
+      </div>
+      <div class="resource-bar">
+        <div class="resource-icon gem">💎</div>
+        <span>680</span>
+      </div>
+      <div class="resource-bar">
+        <div class="resource-icon energy">⚡</div>
+        <span>85/120</span>
+      </div>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="function-grid">
+      <div class="function-item" data-action="campaign">
+        <div class="func-icon campaign">⚔️</div>
+        <div class="func-label">闯关</div>
+        <div class="func-sub">主线剧情</div>
+      </div>
+      <div class="function-item" data-action="challenge">
+        <div class="func-icon challenge">🔥</div>
+        <div class="func-label">挑战</div>
+        <div class="func-sub">极限试炼</div>
+      </div>
+      <div class="function-item" data-action="pvp">
+        <div class="func-icon pvp">🏆</div>
+        <div class="func-label">PVP</div>
+        <div class="func-sub">实时对战</div>
+      </div>
+      <div class="function-item" data-action="duel">
+        <div class="func-icon duel">🤝</div>
+        <div class="func-label">约战</div>
+        <div class="func-sub">好友切磋</div>
+      </div>
+      <div class="function-item" data-action="daily">
+        <div class="func-icon daily">📋</div>
+        <div class="func-label">每日</div>
+        <div class="func-sub">日常任务</div>
+      </div>
+      <div class="function-item" data-action="checkin">
+        <div class="func-icon checkin">📅</div>
+        <div class="func-label">签到</div>
+        <div class="func-sub">每日奖励</div>
+      </div>
+    </div>
+    <div class="activity-banner">
+      <div class="banner-badge">限时</div>
+      <div class="banner-text">🔥 觉醒赛季 · 限时双倍奖励</div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-level-select" class="screen">
+  <div class="level-header">
+    <div class="back-btn" data-action="back">←</div>
+    <div class="chapter-title">选择关卡</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="chapter-nav">
+    <div class="nav-arrow" data-action="prev-chapter">‹</div>
+    <div class="chapter-name">第一章 · 觉醒之森</div>
+    <div class="nav-arrow" data-action="next-chapter">›</div>
+  </div>
+  <div class="level-grid">
+    <div class="level-node completed">
+      <div class="node-num">1</div>
+      <div class="node-stars">⭐⭐⭐</div>
+    </div>
+    <div class="level-node completed">
+      <div class="node-num">2</div>
+      <div class="node-stars">⭐⭐⭐</div>
+    </div>
+    <div class="level-node completed">
+      <div class="node-num">3</div>
+      <div class="node-stars">⭐⭐☆</div>
+    </div>
+    <div class="level-node completed">
+      <div class="node-num">4</div>
+      <div class="node-stars">⭐⭐⭐</div>
+    </div>
+    <div class="level-node current">
+      <div class="node-num">5</div>
+      <div class="node-label">当前</div>
+    </div>
+    <div class="level-node locked">
+      <div class="node-num">6</div>
+      <div class="node-label">🔒</div>
+    </div>
+    <div class="level-node locked">
+      <div class="node-num">7</div>
+      <div class="node-label">🔒</div>
+    </div>
+    <div class="level-node locked">
+      <div class="node-num">8</div>
+      <div class="node-label">🔒</div>
+    </div>
+    <div class="level-node boss locked">
+      <div class="node-num">👹</div>
+      <div class="node-label">BOSS</div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-battle" class="screen">
+  <div class="battle-canvas-wrap">
+    <canvas id="gameCanvas"></canvas>
+    <div class="battle-top-bar">
+      <div class="battle-info">
+        <div class="battle-wave">波次 3/8</div>
+        <div class="battle-hp">
+          <span class="hp-icon">❤️</span>
+          <div class="hp-bar">
+            <div class="hp-fill" style="width:75%"></div>
+          </div>
+          <span class="hp-text">75</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="battle-speed-btn">1x</div>
+        <div class="battle-pause-btn" data-action="pause">⏸</div>
+      </div>
+    </div>
+    <div class="tower-action-panel" id="towerActionPanel">
+      <div class="tower-action-btn upgrade" data-action="tower-upgrade">
+        <span class="action-icon">⬆️</span>
+        <span>升级</span>
+      </div>
+      <div class="tower-action-btn" data-action="tower-skill">
+        <span class="action-icon">✨</span>
+        <span>技能</span>
+      </div>
+      <div class="tower-action-btn sell" data-action="tower-sell">
+        <span class="action-icon">💰</span>
+        <span>出售</span>
+      </div>
+    </div>
+    <div class="battle-bottom-bar">
+      <div class="tower-select-bar">
+        <div class="tower-select-item" data-tower="archer">
+          <span class="tower-icon element-nature">🏹</span>
+          <span class="tower-cost">100</span>
+        </div>
+        <div class="tower-select-item" data-tower="mage">
+          <span class="tower-icon element-fire">🔮</span>
+          <span class="tower-cost">150</span>
+        </div>
+        <div class="tower-select-item" data-tower="ice">
+          <span class="tower-icon element-water">❄️</span>
+          <span class="tower-cost">120</span>
+        </div>
+        <div class="tower-select-item" data-tower="thunder">
+          <span class="tower-icon element-thunder">⚡</span>
+          <span class="tower-cost">200</span>
+        </div>
+        <div class="tower-select-item" data-tower="poison">
+          <span class="tower-icon element-poison">☠️</span>
+          <span class="tower-cost">130</span>
+        </div>
+        <div class="tower-select-item" data-tower="light">
+          <span class="tower-icon element-light">✝️</span>
+          <span class="tower-cost">180</span>
+        </div>
+        <div class="tower-select-item" data-tower="mech">
+          <span class="tower-icon element-mech">⚙️</span>
+          <span class="tower-cost">250</span>
+        </div>
+        <div class="tower-select-item" data-tower="dark">
+          <span class="tower-icon element-dark">🌑</span>
+          <span class="tower-cost">220</span>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-btn ready" data-skill="meteor" style="background:rgba(255,140,66,0.3)">
+          ☄️
+        </div>
+        <div class="skill-btn" data-skill="freeze" style="background:rgba(74,123,247,0.3)">
+          🧊
+          <div class="skill-cd">5</div>
+        </div>
+        <div class="skill-btn" data-skill="heal" style="background:rgba(78,203,113,0.3)">
+          💚
+          <div class="skill-cd">12</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-rogue" class="screen">
+  <div class="rogue-content">
+    <div class="rogue-title">选择强化</div>
+    <div class="rogue-subtitle">选择一项能力提升你的防御</div>
+    <div class="rogue-timer">⏱ <span id="rogueCountdown">8</span>s</div>
+    <div class="rogue-cards">
+      <div class="rogue-card rarity-border-common">
+        <div class="card-rarity" style="background:#C0C4D0"></div>
+        <div class="card-icon" style="background:rgba(78,203,113,0.15)">🏹</div>
+        <div class="card-name">精准射击</div>
+        <div class="card-desc">弓箭塔攻击+15%</div>
+      </div>
+      <div class="rogue-card rarity-border-rare">
+        <div class="card-rarity" style="background:var(--color-primary)"></div>
+        <div class="card-icon" style="background:rgba(74,123,247,0.15)">❄️</div>
+        <div class="card-name">极寒领域</div>
+        <div class="card-desc">冰塔减速+20%</div>
+      </div>
+      <div class="rogue-card rarity-border-epic">
+        <div class="card-rarity" style="background:var(--color-purple)"></div>
+        <div class="card-icon" style="background:rgba(168,85,247,0.15)">⚡</div>
+        <div class="card-name">雷神之怒</div>
+        <div class="card-desc">雷塔连锁+2目标</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-result" class="screen">
+  <div class="result-content">
+    <div class="result-badge victory">🏆</div>
+    <div class="result-title victory">胜利!</div>
+    <div class="result-stars">
+      <span class="star filled">⭐</span>
+      <span class="star filled">⭐</span>
+      <span class="star">☆</span>
+    </div>
+    <div class="result-rewards">
+      <div class="rewards-title">战斗奖励</div>
+      <div class="rewards-list">
+        <div class="reward-item">
+          <div class="reward-icon" style="background:rgba(255,210,63,0.15)">🪙</div>
+          <div class="reward-amount">+580</div>
+        </div>
+        <div class="reward-item">
+          <div class="reward-icon" style="background:rgba(168,85,247,0.15)">💎</div>
+          <div class="reward-amount">+30</div>
+        </div>
+        <div class="reward-item">
+          <div class="reward-icon" style="background:rgba(78,203,113,0.15)">📦</div>
+          <div class="reward-amount">×1</div>
+        </div>
+      </div>
+    </div>
+    <div class="result-stats">
+      <div class="stat-item">
+        <div class="stat-value">42</div>
+        <div class="stat-label">击杀数</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">3:28</div>
+        <div class="stat-label">用时</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">92%</div>
+        <div class="stat-label">血量</div>
+      </div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-outline btn-block" data-action="home">返回主页</button>
+      <button class="btn btn-primary btn-block" data-action="next-level">下一关</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-shop" class="screen">
+  <div class="shop-header">
+    <div class="shop-title">🛒 商店</div>
+    <div class="home-resources">
+      <div class="resource-bar">
+        <div class="resource-icon gold">🪙</div>
+        <span>12,580</span>
+      </div>
+      <div class="resource-bar">
+        <div class="resource-icon gem">💎</div>
+        <span>680</span>
+      </div>
+    </div>
+  </div>
+  <div class="shop-tabs">
+    <div class="shop-tab active">推荐</div>
+    <div class="shop-tab">礼包</div>
+    <div class="shop-tab">资源</div>
+    <div class="shop-tab">皮肤</div>
+  </div>
+  <div class="shop-content">
+    <div class="shop-grid">
+      <div class="shop-item">
+        <div class="item-icon" style="background:linear-gradient(135deg,#FFD23F,#FFA000)">📦</div>
+        <div class="item-name">觉醒宝箱</div>
+        <div class="item-desc">随机获得稀有塔碎片</div>
+        <div class="item-price gem-price">💎 120</div>
+      </div>
+      <div class="shop-item">
+        <div class="item-icon" style="background:linear-gradient(135deg,#4ECB71,#22C55E)">⚡</div>
+        <div class="item-name">体力药水</div>
+        <div class="item-desc">恢复60点体力</div>
+        <div class="item-price gem-price">💎 50</div>
+      </div>
+      <div class="shop-item">
+        <div class="item-icon" style="background:linear-gradient(135deg,#FF8C42,#FFA366)">🪙</div>
+        <div class="item-name">金币袋</div>
+        <div class="item-desc">获得2000金币</div>
+        <div class="item-price gem-price">💎 80</div>
+      </div>
+      <div class="shop-item">
+        <div class="item-icon" style="background:linear-gradient(135deg,#A855F7,#C084FC)">🎭</div>
+        <div class="item-name">限定皮肤</div>
+        <div class="item-desc">冰霜女王特效</div>
+        <div class="item-price gem-price">💎 300</div>
+      </div>
+      <div class="shop-item">
+        <div class="item-icon" style="background:linear-gradient(135deg,#4A7BF7,#6B93FF)">🗺️</div>
+        <div class="item-name">扫荡券×5</div>
+        <div class="item-desc">快速通关已三星关卡</div>
+        <div class="item-price gold-price">🪙 1000</div>
+      </div>
+      <div class="shop-item">
+        <div class="item-icon" style="background:linear-gradient(135deg,#FF7EB3,#FF9EC7)">💎</div>
+        <div class="item-name">月卡</div>
+        <div class="item-desc">每日领取100宝石</div>
+        <div class="item-price gem-price">💎 198</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-upgrade" class="screen">
+  <div class="upgrade-header">
+    <div class="upgrade-title">🏰 养成</div>
+    <div class="home-resources">
+      <div class="resource-bar">
+        <div class="resource-icon gold">🪙</div>
+        <span>12,580</span>
+      </div>
+      <div class="resource-bar">
+        <div class="resource-icon gem">💎</div>
+        <span>680</span>
+      </div>
+    </div>
+  </div>
+  <div class="upgrade-body">
+    <div class="tower-list">
+      <div class="tower-list-item active element-nature">
+        <span class="list-tower-icon">🏹</span>
+        <span class="list-tower-name">弓箭</span>
+      </div>
+      <div class="tower-list-item element-fire">
+        <span class="list-tower-icon">🔮</span>
+        <span class="list-tower-name">法师</span>
+      </div>
+      <div class="tower-list-item element-water">
+        <span class="list-tower-icon">❄️</span>
+        <span class="list-tower-name">冰霜</span>
+      </div>
+      <div class="tower-list-item element-thunder">
+        <span class="list-tower-icon">⚡</span>
+        <span class="list-tower-name">雷电</span>
+      </div>
+      <div class="tower-list-item element-poison">
+        <span class="list-tower-icon">☠️</span>
+        <span class="list-tower-name">剧毒</span>
+      </div>
+      <div class="tower-list-item element-light">
+        <span class="list-tower-icon">✝️</span>
+        <span class="list-tower-name">圣光</span>
+      </div>
+      <div class="tower-list-item element-mech">
+        <span class="list-tower-icon">⚙️</span>
+        <span class="list-tower-name">机械</span>
+      </div>
+      <div class="tower-list-item element-dark">
+        <span class="list-tower-icon">🌑</span>
+        <span class="list-tower-name">暗影</span>
+      </div>
+    </div>
+    <div class="tower-detail">
+      <div class="tower-detail-header">
+        <div class="tower-detail-icon element-nature">🏹</div>
+        <div class="tower-detail-name">精灵弓箭手</div>
+        <div class="tower-detail-level">Lv.15 ★★★☆</div>
+      </div>
+      <div class="tower-stats">
+        <div class="tower-stat">
+          <span class="stat-name">攻击</span>
+          <span class="stat-val" style="color:var(--color-warning)">128</span>
+        </div>
+        <div class="tower-stat">
+          <span class="stat-name">攻速</span>
+          <span class="stat-val">1.2/s</span>
+        </div>
+        <div class="tower-stat">
+          <span class="stat-name">范围</span>
+          <span class="stat-val" style="color:var(--color-primary)">3.5</span>
+        </div>
+        <div class="tower-stat">
+          <span class="stat-name">暴击</span>
+          <span class="stat-val" style="color:var(--color-accent-gold)">15%</span>
+        </div>
+      </div>
+      <div class="skill-tree">
+        <div class="skill-tree-title">技能树</div>
+        <div class="skill-tree-visual">
+          <div class="skill-node unlocked">🏹</div>
+          <div class="skill-connector active"></div>
+          <div class="skill-node unlocked">🎯</div>
+          <div class="skill-connector active"></div>
+          <div class="skill-node available">💥</div>
+          <div class="skill-connector"></div>
+          <div class="skill-node">🌀</div>
+        </div>
+      </div>
+      <div class="skill-tree-title" style="margin-bottom:8px">觉醒分支</div>
+      <div class="branch-select">
+        <div class="branch-card selected">
+          <div class="branch-icon">🏹</div>
+          <div class="branch-name">穿透之箭</div>
+          <div class="branch-desc">攻击穿透2个目标</div>
+        </div>
+        <div class="branch-card">
+          <div class="branch-icon">🌪️</div>
+          <div class="branch-name">箭雨风暴</div>
+          <div class="branch-desc">范围AOE伤害</div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary btn-block btn-lg">升级 (🪙 2,000)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-pvp" class="screen">
+  <div class="pvp-content">
+    <div class="pvp-title">🏆 竞技场</div>
+    <div class="pvp-players">
+      <div class="pvp-player">
+        <div class="pvp-avatar" style="background:linear-gradient(135deg,var(--color-primary),var(--color-primary-light))">🧙</div>
+        <div class="pvp-name">觉醒者</div>
+        <div class="pvp-rank">钻石 III</div>
+      </div>
+      <div class="pvp-vs">VS</div>
+      <div class="pvp-player">
+        <div class="pvp-avatar" style="background:linear-gradient(135deg,var(--color-warning),var(--color-secondary))">🤖</div>
+        <div class="pvp-name">等待匹配...</div>
+        <div class="pvp-rank">---</div>
+      </div>
+    </div>
+    <button class="pvp-match-btn">开始匹配</button>
+    <div class="pvp-stats">
+      <div class="pvp-stat">
+        <div class="pvp-stat-val">68%</div>
+        <div class="pvp-stat-label">胜率</div>
+      </div>
+      <div class="pvp-stat">
+        <div class="pvp-stat-val">142</div>
+        <div class="pvp-stat-label">胜场</div>
+      </div>
+      <div class="pvp-stat">
+        <div class="pvp-stat-val">2,480</div>
+        <div class="pvp-stat-label">积分</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-social" class="screen">
+  <div class="social-header">
+    <div class="social-title">👥 社交</div>
+    <button class="btn btn-sm btn-ghost">+ 添加好友</button>
+  </div>
+  <div class="social-tabs">
+    <div class="social-tab active">好友</div>
+    <div class="social-tab">排行榜</div>
+    <div class="social-tab">约战</div>
+  </div>
+  <div class="social-content">
+    <div class="friend-item">
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#4ECB71,#22C55E)">🧝</div>
+      <div class="friend-info">
+        <div class="friend-name">森林守卫</div>
+        <div class="friend-status" style="color:var(--color-accent-green)">● 在线</div>
+      </div>
+      <button class="friend-action btn btn-sm btn-primary">约战</button>
+    </div>
+    <div class="friend-item">
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#A855F7,#C084FC)">🧛</div>
+      <div class="friend-info">
+        <div class="friend-name">暗夜猎手</div>
+        <div class="friend-status" style="color:var(--color-accent-green)">● 在线</div>
+      </div>
+      <button class="friend-action btn btn-sm btn-primary">约战</button>
+    </div>
+    <div class="friend-item">
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#FF8C42,#FFA366)">🧙</div>
+      <div class="friend-info">
+        <div class="friend-name">火焰法师</div>
+        <div class="friend-status">○ 3小时前</div>
+      </div>
+      <button class="friend-action btn btn-sm btn-ghost">邀请</button>
+    </div>
+    <div class="friend-item">
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#4A7BF7,#6B93FF)">🤖</div>
+      <div class="friend-info">
+        <div class="friend-name">钢铁堡垒</div>
+        <div class="friend-status">○ 昨天</div>
+      </div>
+      <button class="friend-action btn btn-sm btn-ghost">邀请</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-battlepass" class="screen">
+  <div class="bp-header">
+    <div class="bp-title">🎖️ 战令</div>
+    <button class="btn btn-sm btn-primary">解锁高级</button>
+  </div>
+  <div class="bp-season-info">
+    <div class="bp-season-name">觉醒赛季 · 第三季</div>
+    <div class="bp-season-time">剩余 18天 06:32:15</div>
+  </div>
+  <div class="bp-tracks">
+    <div class="bp-track free">
+      <div class="bp-track-label">免费</div>
+      <div class="bp-level-progress">
+        <div class="bp-level-num">Lv.15/50</div>
+        <div class="progress-bar">
+          <div class="progress-fill green" style="width:30%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bp-track paid">
+      <div class="bp-track-label">高级</div>
+      <div class="bp-level-progress">
+        <div class="bp-level-num">Lv.15/50</div>
+        <div class="progress-bar">
+          <div class="progress-fill purple" style="width:30%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bp-rewards-scroll">
+    <div class="bp-rewards-row">
+      <div class="bp-reward-node claimed">
+        <div class="bp-node-icon">🪙</div>
+        <div class="bp-node-level">1</div>
+      </div>
+      <div class="bp-reward-node claimed">
+        <div class="bp-node-icon">⚡</div>
+        <div class="bp-node-level">5</div>
+      </div>
+      <div class="bp-reward-node claimed">
+        <div class="bp-node-icon">📦</div>
+        <div class="bp-node-level">10</div>
+      </div>
+      <div class="bp-reward-node current">
+        <div class="bp-node-icon">💎</div>
+        <div class="bp-node-level">15</div>
+      </div>
+      <div class="bp-reward-node">
+        <div class="bp-node-icon">🏹</div>
+        <div class="bp-node-level">20</div>
+      </div>
+      <div class="bp-reward-node">
+        <div class="bp-node-icon">🎭</div>
+        <div class="bp-node-level">25</div>
+      </div>
+      <div class="bp-reward-node">
+        <div class="bp-node-icon">🏆</div>
+        <div class="bp-node-level">30</div>
+      </div>
+      <div class="bp-reward-node">
+        <div class="bp-node-icon">👑</div>
+        <div class="bp-node-level">50</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-settings" class="screen">
+  <div class="settings-header">
+    <div class="back-btn" data-action="back">←</div>
+    <div class="settings-title">设置</div>
+  </div>
+  <div class="settings-content">
+    <div class="settings-group">
+      <div class="settings-group-title">音频</div>
+      <div class="settings-item">
+        <span class="setting-label">🎵 音乐</span>
+        <div class="setting-value">
+          <div class="slider-wrap">
+            <input type="range" min="0" max="100" value="70">
+            <span class="slider-val">70</span>
+          </div>
+        </div>
+      </div>
+      <div class="settings-item">
+        <span class="setting-label">🔊 音效</span>
+        <div class="setting-value">
+          <div class="slider-wrap">
+            <input type="range" min="0" max="100" value="85">
+            <span class="slider-val">85</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <div class="settings-group-title">画面</div>
+      <div class="settings-item">
+        <span class="setting-label">画质</span>
+        <div class="setting-value">
+          <button class="btn btn-sm btn-ghost">高清</button>
+        </div>
+      </div>
+      <div class="settings-item">
+        <span class="setting-label">粒子特效</span>
+        <div class="setting-value">
+          <div class="toggle-switch on">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-item">
+        <span class="setting-label">帧率</span>
+        <div class="setting-value">
+          <button class="btn btn-sm btn-ghost">60fps</button>
+        </div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <div class="settings-group-title">其他</div>
+      <div class="settings-item">
+        <span class="setting-label">推送通知</span>
+        <div class="setting-value">
+          <div class="toggle-switch on">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-item">
+        <span class="setting-label">震动反馈</span>
+        <div class="setting-value">
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-item">
+        <span class="setting-label">清除缓存</span>
+        <div class="setting-value">
+          <span style="font-size:13px;color:var(--color-text-weak)">128MB</span>
+        </div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <div class="settings-item" style="justify-content:center">
+        <span class="setting-label" style="color:var(--color-warning)">退出登录</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialog-pause" class="dialog-overlay">
+  <div class="dialog-box">
+    <div class="pause-title">⏸ 暂停</div>
+    <div class="pause-buttons">
+      <button class="btn btn-primary btn-block btn-lg" data-action="resume">继续游戏</button>
+      <button class="btn btn-secondary btn-block btn-lg" data-action="restart">重新开始</button>
+      <button class="btn btn-ghost btn-block btn-lg" data-action="quit">退出战斗</button>
+    </div>
+  </div>
+</div>
+
+<div id="dialog-branch" class="dialog-overlay">
+  <div class="dialog-box">
+    <div class="branch-dialog-title">选择觉醒分支</div>
+    <div class="branch-dialog-cards">
+      <div class="branch-dialog-card selected">
+        <div class="bd-icon">🏹</div>
+        <div class="bd-name">穿透之箭</div>
+        <div class="bd-desc">攻击穿透2个目标，造成连锁伤害</div>
+      </div>
+      <div class="branch-dialog-card">
+        <div class="bd-icon">🌪️</div>
+        <div class="bd-name">箭雨风暴</div>
+        <div class="bd-desc">释放箭雨覆盖大范围区域</div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block btn-lg">确认选择</button>
+  </div>
+</div>
+
+<div id="dialog-shop-confirm" class="dialog-overlay">
+  <div class="dialog-box">
+    <div class="confirm-icon">📦</div>
+    <div class="confirm-title">确认购买</div>
+    <div class="confirm-desc">觉醒宝箱 ×1<br>消耗 💎 120</div>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost btn-block" data-action="cancel">取消</button>
+      <button class="btn btn-primary btn-block" data-action="confirm">确认</button>
+    </div>
+  </div>
+</div>
+
+<div id="dialog-revive" class="dialog-overlay">
+  <div class="dialog-box">
+    <div class="revive-title">💀 基地被摧毁!</div>
+    <div class="revive-desc">选择一种方式继续战斗</div>
+    <div class="revive-options">
+      <div class="revive-option" data-action="revive-ad">
+        <span class="option-icon">📺</span>
+        <span>观看广告复活</span>
+      </div>
+      <div class="revive-option" data-action="revive-share">
+        <span class="option-icon">📤</span>
+        <span>分享给好友复活</span>
+      </div>
+      <div class="revive-option" data-action="revive-gem">
+        <span class="option-icon">💎</span>
+        <span>消耗50宝石复活</span>
+      </div>
+    </div>
+    <button class="btn btn-ghost btn-block" style="margin-top:12px" data-action="give-up">放弃战斗</button>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<div class="tab-bar" id="mainTabBar">
+  <div class="tab-item active" data-tab="home">
+    <span class="tab-icon">🏠</span>
+    <span class="tab-label">主页</span>
+  </div>
+  <div class="tab-item" data-tab="battle">
+    <span class="tab-icon">⚔️</span>
+    <span class="tab-label">战斗</span>
+  </div>
+  <div class="tab-item" data-tab="shop">
+    <span class="tab-icon">🛒</span>
+    <span class="tab-label">商店</span>
+  </div>
+  <div class="tab-item" data-tab="upgrade">
+    <span class="tab-icon">🏰</span>
+    <span class="tab-label">养成</span>
+  </div>
+  <div class="tab-item" data-tab="social">
+    <span class="tab-icon">👥</span>
+    <span class="tab-label">社交</span>
+  </div>
+</div>
+
+<script src="js/wx-compat.js"></script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/renderer.js"></script>
+<script src="js/tower.js"></script>
+<script src="js/enemy.js"></script>
+<script src="js/wave.js"></script>
+<script src="js/projectile.js"></script>
+<script src="js/map.js"></script>
+<script src="js/path.js"></script>
+<script src="js/skill.js"></script>
+<script src="js/rogue.js"></script>
+<script src="js/battle.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/screen.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/upgrade.js"></script>
+<script src="js/pvp.js"></script>
+<script src="js/social.js"></script>
+<script src="js/battlepass.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

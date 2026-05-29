@@ -1,0 +1,21 @@
+window.Utils = {
+  distance(x1, y1, x2, y2) { return Math.sqrt((x2-x1)**2 + (y2-y1)**2); },
+  gridToPixel(col, row) { return { x: col * GameConfig.GRID_SIZE + GameConfig.GRID_SIZE/2, y: row * GameConfig.GRID_SIZE + GameConfig.GRID_SIZE/2 }; },
+  pixelToGrid(x, y) { return { col: Math.floor(x / GameConfig.GRID_SIZE), row: Math.floor(y / GameConfig.GRID_SIZE) }; },
+  clamp(val, min, max) { return Math.max(min, Math.min(max, val)); },
+  lerp(a, b, t) { return a + (b - a) * t; },
+  randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; },
+  randomFloat(min, max) { return Math.random() * (max - min) + min; },
+  randomChoice(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
+  shuffle(arr) { let a = [...arr]; for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; },
+  weightedRandom(items, weights) { let total=weights.reduce((s,w)=>s+w,0), r=Math.random()*total; for(let i=0;i<items.length;i++){r-=weights[i];if(r<=0)return items[i];} return items[items.length-1]; },
+  formatNumber(n) { if(n>=1000000)return(n/1000000).toFixed(1)+'M'; if(n>=1000)return(n/1000).toFixed(1)+'K'; return n.toString(); },
+  formatTime(seconds) { let m=Math.floor(seconds/60),s=Math.floor(seconds%60); return `${m}:${s.toString().padStart(2,'0')}`; },
+  easeOutQuad(t) { return t*(2-t); },
+  easeInOutCubic(t) { return t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; },
+  easeOutBack(t) { const c1=1.70158,c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); },
+  createId() { return Date.now().toString(36)+Math.random().toString(36).substr(2,5); },
+  deepClone(obj) { return JSON.parse(JSON.stringify(obj)); },
+  throttle(fn, delay) { let last=0; return function(...args){let now=Date.now();if(now-last>=delay){last=now;fn.apply(this,args);}}; },
+  debounce(fn, delay) { let timer; return function(...args){clearTimeout(timer);timer=setTimeout(()=>fn.apply(this,args),delay);}; }
+};
