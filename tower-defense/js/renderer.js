@@ -34,6 +34,7 @@ window.Renderer = class Renderer {
     this.ctx.save();
     this.ctx.translate(this.offsetX, this.offsetY);
     this.ctx.scale(this.scale, this.scale);
+    this.ctx.imageSmoothingEnabled = false;
   }
 
   endDraw() {
