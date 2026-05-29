@@ -69,6 +69,7 @@ window.Battle = class Battle {
 
     this.skillSystem.update(dt);
     this.rogueSystem.update(dt);
+    this.gameMap.update(dt);
     this.renderer.updateParticles(dt);
 
     for (let i = this.areaEffects.length - 1; i >= 0; i--) {
