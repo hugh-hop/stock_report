@@ -2494,13 +2494,16 @@ body::before {
   }
 }
 
+.icon-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle; }
+.icon-wrap svg { display: block; }
+
 </style>
 </head>
 <body>
 
 <div id="screen-launch" class="screen active">
   <div class="launch-logo">
-    <div class="logo-icon">🏰</div>
+    <div class="logo-icon"><span class="icon-wrap" data-icon="upgrade" data-icon-size="48"></span></div>
     <div class="logo-title">塔防觉醒</div>
     <div class="logo-subtitle">TOWER DEFENSE AWAKEN</div>
   </div>
@@ -2515,7 +2518,7 @@ body::before {
 <div id="screen-home" class="screen">
   <div class="home-header">
     <div class="player-info">
-      <div class="player-avatar">🧙</div>
+      <div class="player-avatar"><span class="icon-wrap" data-icon="mage" data-icon-size="20"></span></div>
       <div class="player-detail">
         <div class="player-name">觉醒者</div>
         <div class="player-level">Lv.28</div>
@@ -2523,15 +2526,15 @@ body::before {
     </div>
     <div class="home-resources">
       <div class="resource-bar">
-        <div class="resource-icon gold">🪙</div>
+        <div class="resource-icon gold"><span class="icon-wrap" data-icon="gold" data-icon-size="16"></span></div>
         <span>12,580</span>
       </div>
       <div class="resource-bar">
-        <div class="resource-icon gem">💎</div>
+        <div class="resource-icon gem"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span></div>
         <span>680</span>
       </div>
       <div class="resource-bar">
-        <div class="resource-icon energy">⚡</div>
+        <div class="resource-icon energy"><span class="icon-wrap" data-icon="energy" data-icon-size="16"></span></div>
         <span>85/120</span>
       </div>
     </div>
@@ -2539,39 +2542,39 @@ body::before {
   <div class="home-content">
     <div class="function-grid">
       <div class="function-item" data-action="campaign">
-        <div class="func-icon campaign">⚔️</div>
+        <div class="func-icon campaign"><span class="icon-wrap" data-icon="battle" data-icon-size="32"></span></div>
         <div class="func-label">闯关</div>
         <div class="func-sub">主线剧情</div>
       </div>
       <div class="function-item" data-action="challenge">
-        <div class="func-icon challenge">🔥</div>
+        <div class="func-icon challenge"><span class="icon-wrap" data-icon="challenge" data-icon-size="32"></span></div>
         <div class="func-label">挑战</div>
         <div class="func-sub">极限试炼</div>
       </div>
       <div class="function-item" data-action="pvp">
-        <div class="func-icon pvp">🏆</div>
+        <div class="func-icon pvp"><span class="icon-wrap" data-icon="trophy" data-icon-size="32"></span></div>
         <div class="func-label">PVP</div>
         <div class="func-sub">实时对战</div>
       </div>
       <div class="function-item" data-action="duel">
-        <div class="func-icon duel">🤝</div>
+        <div class="func-icon duel"><span class="icon-wrap" data-icon="friend" data-icon-size="32"></span></div>
         <div class="func-label">约战</div>
         <div class="func-sub">好友切磋</div>
       </div>
       <div class="function-item" data-action="daily">
-        <div class="func-icon daily">📋</div>
+        <div class="func-icon daily"><span class="icon-wrap" data-icon="daily" data-icon-size="32"></span></div>
         <div class="func-label">每日</div>
         <div class="func-sub">日常任务</div>
       </div>
       <div class="function-item" data-action="checkin">
-        <div class="func-icon checkin">📅</div>
+        <div class="func-icon checkin"><span class="icon-wrap" data-icon="checkin" data-icon-size="32"></span></div>
         <div class="func-label">签到</div>
         <div class="func-sub">每日奖励</div>
       </div>
     </div>
     <div class="activity-banner">
       <div class="banner-badge">限时</div>
-      <div class="banner-text">🔥 觉醒赛季 · 限时双倍奖励</div>
+      <div class="banner-text"><span class="icon-wrap" data-icon="challenge" data-icon-size="20"></span> 觉醒赛季 · 限时双倍奖励</div>
     </div>
   </div>
 </div>
@@ -2590,19 +2593,19 @@ body::before {
   <div class="level-grid">
     <div class="level-node completed">
       <div class="node-num">1</div>
-      <div class="node-stars">⭐⭐⭐</div>
+      <div class="node-stars"><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span></div>
     </div>
     <div class="level-node completed">
       <div class="node-num">2</div>
-      <div class="node-stars">⭐⭐⭐</div>
+      <div class="node-stars"><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span></div>
     </div>
     <div class="level-node completed">
       <div class="node-num">3</div>
-      <div class="node-stars">⭐⭐☆</div>
+      <div class="node-stars"><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="starEmpty" data-icon-size="14"></span></div>
     </div>
     <div class="level-node completed">
       <div class="node-num">4</div>
-      <div class="node-stars">⭐⭐⭐</div>
+      <div class="node-stars"><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span><span class="icon-wrap" data-icon="star" data-icon-size="14"></span></div>
     </div>
     <div class="level-node current">
       <div class="node-num">5</div>
@@ -2621,7 +2624,7 @@ body::before {
       <div class="node-label">🔒</div>
     </div>
     <div class="level-node boss locked">
-      <div class="node-num">👹</div>
+      <div class="node-num"><span class="icon-wrap" data-icon="orc" data-icon-size="20"></span></div>
       <div class="node-label">BOSS</div>
     </div>
   </div>
@@ -2634,7 +2637,7 @@ body::before {
       <div class="battle-info">
         <div class="battle-wave">波次 3/8</div>
         <div class="battle-hp">
-          <span class="hp-icon">❤️</span>
+          <span class="hp-icon"><span class="icon-wrap" data-icon="heart" data-icon-size="16"></span></span>
           <div class="hp-bar">
             <div class="hp-fill" style="width:75%"></div>
           </div>
@@ -2648,63 +2651,63 @@ body::before {
     </div>
     <div class="tower-action-panel" id="towerActionPanel">
       <div class="tower-action-btn upgrade" data-action="tower-upgrade">
-        <span class="action-icon">⬆️</span>
+        <span class="action-icon"><span class="icon-wrap" data-icon="upgradeAction" data-icon-size="18"></span></span>
         <span>升级</span>
       </div>
       <div class="tower-action-btn" data-action="tower-skill">
-        <span class="action-icon">✨</span>
+        <span class="action-icon"><span class="icon-wrap" data-icon="skill" data-icon-size="18"></span></span>
         <span>技能</span>
       </div>
       <div class="tower-action-btn sell" data-action="tower-sell">
-        <span class="action-icon">💰</span>
+        <span class="action-icon"><span class="icon-wrap" data-icon="sell" data-icon-size="18"></span></span>
         <span>出售</span>
       </div>
     </div>
     <div class="battle-bottom-bar">
       <div class="tower-select-bar">
         <div class="tower-select-item" data-tower="archer">
-          <span class="tower-icon element-nature">🏹</span>
+          <span class="tower-icon element-nature"><span class="icon-wrap" data-icon="archer" data-icon-size="28"></span></span>
           <span class="tower-cost">100</span>
         </div>
         <div class="tower-select-item" data-tower="mage">
-          <span class="tower-icon element-fire">🔮</span>
+          <span class="tower-icon element-fire"><span class="icon-wrap" data-icon="mage" data-icon-size="28"></span></span>
           <span class="tower-cost">150</span>
         </div>
         <div class="tower-select-item" data-tower="ice">
-          <span class="tower-icon element-water">❄️</span>
+          <span class="tower-icon element-water"><span class="icon-wrap" data-icon="ice" data-icon-size="28"></span></span>
           <span class="tower-cost">120</span>
         </div>
         <div class="tower-select-item" data-tower="thunder">
-          <span class="tower-icon element-thunder">⚡</span>
+          <span class="tower-icon element-thunder"><span class="icon-wrap" data-icon="thunder" data-icon-size="28"></span></span>
           <span class="tower-cost">200</span>
         </div>
         <div class="tower-select-item" data-tower="poison">
-          <span class="tower-icon element-poison">☠️</span>
+          <span class="tower-icon element-poison"><span class="icon-wrap" data-icon="poison" data-icon-size="28"></span></span>
           <span class="tower-cost">130</span>
         </div>
         <div class="tower-select-item" data-tower="light">
-          <span class="tower-icon element-light">✝️</span>
+          <span class="tower-icon element-light"><span class="icon-wrap" data-icon="light" data-icon-size="28"></span></span>
           <span class="tower-cost">180</span>
         </div>
         <div class="tower-select-item" data-tower="mech">
-          <span class="tower-icon element-mech">⚙️</span>
+          <span class="tower-icon element-mech"><span class="icon-wrap" data-icon="mech" data-icon-size="28"></span></span>
           <span class="tower-cost">250</span>
         </div>
         <div class="tower-select-item" data-tower="dark">
-          <span class="tower-icon element-dark">🌑</span>
+          <span class="tower-icon element-dark"><span class="icon-wrap" data-icon="dark" data-icon-size="28"></span></span>
           <span class="tower-cost">220</span>
         </div>
       </div>
       <div class="skill-bar">
         <div class="skill-btn ready" data-skill="meteor" style="background:rgba(255,122,61,0.25)">
-          ☄️
+          <span class="icon-wrap" data-icon="meteor" data-icon-size="24"></span>
         </div>
         <div class="skill-btn" data-skill="freeze" style="background:rgba(91,141,239,0.25)">
-          🧊
+          <span class="icon-wrap" data-icon="freeze" data-icon-size="24"></span>
           <div class="skill-cd">5</div>
         </div>
         <div class="skill-btn" data-skill="heal" style="background:rgba(0,230,138,0.25)">
-          💚
+          <span class="icon-wrap" data-icon="heal" data-icon-size="24"></span>
           <div class="skill-cd">12</div>
         </div>
       </div>
@@ -2720,19 +2723,19 @@ body::before {
     <div class="rogue-cards">
       <div class="rogue-card rarity-border-common">
         <div class="card-rarity" style="background:#5A6380"></div>
-        <div class="card-icon" style="background:rgba(0,230,138,0.12)">🏹</div>
+        <div class="card-icon" style="background:rgba(0,230,138,0.12)"><span class="icon-wrap" data-icon="archer" data-icon-size="40"></span></div>
         <div class="card-name">精准射击</div>
         <div class="card-desc">弓箭塔攻击+15%</div>
       </div>
       <div class="rogue-card rarity-border-rare">
         <div class="card-rarity" style="background:var(--color-primary)"></div>
-        <div class="card-icon" style="background:rgba(91,141,239,0.12)">❄️</div>
+        <div class="card-icon" style="background:rgba(91,141,239,0.12)"><span class="icon-wrap" data-icon="ice" data-icon-size="40"></span></div>
         <div class="card-name">极寒领域</div>
         <div class="card-desc">冰塔减速+20%</div>
       </div>
       <div class="rogue-card rarity-border-epic">
         <div class="card-rarity" style="background:var(--color-purple)"></div>
-        <div class="card-icon" style="background:rgba(168,85,247,0.12)">⚡</div>
+        <div class="card-icon" style="background:rgba(168,85,247,0.12)"><span class="icon-wrap" data-icon="thunder" data-icon-size="40"></span></div>
         <div class="card-name">雷神之怒</div>
         <div class="card-desc">雷塔连锁+2目标</div>
       </div>
@@ -2742,26 +2745,26 @@ body::before {
 
 <div id="screen-result" class="screen">
   <div class="result-content">
-    <div class="result-badge victory">🏆</div>
+    <div class="result-badge victory"><span class="icon-wrap" data-icon="trophy" data-icon-size="48"></span></div>
     <div class="result-title victory">胜利!</div>
     <div class="result-stars">
-      <span class="star filled">⭐</span>
-      <span class="star filled">⭐</span>
-      <span class="star">☆</span>
+      <span class="star filled"><span class="icon-wrap" data-icon="star" data-icon-size="28"></span></span>
+      <span class="star filled"><span class="icon-wrap" data-icon="star" data-icon-size="28"></span></span>
+      <span class="star"><span class="icon-wrap" data-icon="starEmpty" data-icon-size="28"></span></span>
     </div>
     <div class="result-rewards">
       <div class="rewards-title">战斗奖励</div>
       <div class="rewards-list">
         <div class="reward-item">
-          <div class="reward-icon" style="background:rgba(255,215,0,0.12)">🪙</div>
+          <div class="reward-icon" style="background:rgba(255,215,0,0.12)"><span class="icon-wrap" data-icon="gold" data-icon-size="22"></span></div>
           <div class="reward-amount">+580</div>
         </div>
         <div class="reward-item">
-          <div class="reward-icon" style="background:rgba(168,85,247,0.12)">💎</div>
+          <div class="reward-icon" style="background:rgba(168,85,247,0.12)"><span class="icon-wrap" data-icon="gem" data-icon-size="22"></span></div>
           <div class="reward-amount">+30</div>
         </div>
         <div class="reward-item">
-          <div class="reward-icon" style="background:rgba(0,230,138,0.12)">📦</div>
+          <div class="reward-icon" style="background:rgba(0,230,138,0.12)"><span class="icon-wrap" data-icon="chest" data-icon-size="22"></span></div>
           <div class="reward-amount">×1</div>
         </div>
       </div>
@@ -2789,14 +2792,14 @@ body::before {
 
 <div id="screen-shop" class="screen">
   <div class="shop-header">
-    <div class="shop-title">🛒 商店</div>
+    <div class="shop-title"><span class="icon-wrap" data-icon="shop" data-icon-size="20"></span> 商店</div>
     <div class="home-resources">
       <div class="resource-bar">
-        <div class="resource-icon gold">🪙</div>
+        <div class="resource-icon gold"><span class="icon-wrap" data-icon="gold" data-icon-size="16"></span></div>
         <span>12,580</span>
       </div>
       <div class="resource-bar">
-        <div class="resource-icon gem">💎</div>
+        <div class="resource-icon gem"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span></div>
         <span>680</span>
       </div>
     </div>
@@ -2810,40 +2813,40 @@ body::before {
   <div class="shop-content">
     <div class="shop-grid">
       <div class="shop-item">
-        <div class="item-icon" style="background:linear-gradient(135deg,#FFD700,#FFA000)">📦</div>
+        <div class="item-icon" style="background:linear-gradient(135deg,#FFD700,#FFA000)"><span class="icon-wrap" data-icon="chest" data-icon-size="36"></span></div>
         <div class="item-name">觉醒宝箱</div>
         <div class="item-desc">随机获得稀有塔碎片</div>
-        <div class="item-price gem-price">💎 120</div>
+        <div class="item-price gem-price"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span> 120</div>
       </div>
       <div class="shop-item">
-        <div class="item-icon" style="background:linear-gradient(135deg,#00E68A,#22C55E)">⚡</div>
+        <div class="item-icon" style="background:linear-gradient(135deg,#00E68A,#22C55E)"><span class="icon-wrap" data-icon="energy" data-icon-size="36"></span></div>
         <div class="item-name">体力药水</div>
         <div class="item-desc">恢复60点体力</div>
-        <div class="item-price gem-price">💎 50</div>
+        <div class="item-price gem-price"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span> 50</div>
       </div>
       <div class="shop-item">
-        <div class="item-icon" style="background:linear-gradient(135deg,#FF7A3D,#FFB366)">🪙</div>
+        <div class="item-icon" style="background:linear-gradient(135deg,#FF7A3D,#FFB366)"><span class="icon-wrap" data-icon="gold" data-icon-size="36"></span></div>
         <div class="item-name">金币袋</div>
         <div class="item-desc">获得2000金币</div>
-        <div class="item-price gem-price">💎 80</div>
+        <div class="item-price gem-price"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span> 80</div>
       </div>
       <div class="shop-item">
-        <div class="item-icon" style="background:linear-gradient(135deg,#A855F7,#C084FC)">🎭</div>
+        <div class="item-icon" style="background:linear-gradient(135deg,#A855F7,#C084FC)"><span class="icon-wrap" data-icon="skin" data-icon-size="36"></span></div>
         <div class="item-name">限定皮肤</div>
         <div class="item-desc">冰霜女王特效</div>
-        <div class="item-price gem-price">💎 300</div>
+        <div class="item-price gem-price"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span> 300</div>
       </div>
       <div class="shop-item">
-        <div class="item-icon" style="background:linear-gradient(135deg,#5B8DEF,#7BA4FF)">🗺️</div>
+        <div class="item-icon" style="background:linear-gradient(135deg,#5B8DEF,#7BA4FF)"><span class="icon-wrap" data-icon="map" data-icon-size="36"></span></div>
         <div class="item-name">扫荡券×5</div>
         <div class="item-desc">快速通关已三星关卡</div>
-        <div class="item-price gold-price">🪙 1000</div>
+        <div class="item-price gold-price"><span class="icon-wrap" data-icon="gold" data-icon-size="16"></span> 1000</div>
       </div>
       <div class="shop-item">
-        <div class="item-icon" style="background:linear-gradient(135deg,#FF6B9D,#FF9EC7)">💎</div>
+        <div class="item-icon" style="background:linear-gradient(135deg,#FF6B9D,#FF9EC7)"><span class="icon-wrap" data-icon="monthly" data-icon-size="36"></span></div>
         <div class="item-name">月卡</div>
         <div class="item-desc">每日领取100宝石</div>
-        <div class="item-price gem-price">💎 198</div>
+        <div class="item-price gem-price"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span> 198</div>
       </div>
     </div>
   </div>
@@ -2851,14 +2854,14 @@ body::before {
 
 <div id="screen-upgrade" class="screen">
   <div class="upgrade-header">
-    <div class="upgrade-title">🏰 养成</div>
+    <div class="upgrade-title"><span class="icon-wrap" data-icon="upgrade" data-icon-size="20"></span> 养成</div>
     <div class="home-resources">
       <div class="resource-bar">
-        <div class="resource-icon gold">🪙</div>
+        <div class="resource-icon gold"><span class="icon-wrap" data-icon="gold" data-icon-size="16"></span></div>
         <span>12,580</span>
       </div>
       <div class="resource-bar">
-        <div class="resource-icon gem">💎</div>
+        <div class="resource-icon gem"><span class="icon-wrap" data-icon="gem" data-icon-size="16"></span></div>
         <span>680</span>
       </div>
     </div>
@@ -2866,43 +2869,43 @@ body::before {
   <div class="upgrade-body">
     <div class="tower-list">
       <div class="tower-list-item active element-nature">
-        <span class="list-tower-icon">🏹</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="archer" data-icon-size="24"></span></span>
         <span class="list-tower-name">弓箭</span>
       </div>
       <div class="tower-list-item element-fire">
-        <span class="list-tower-icon">🔮</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="mage" data-icon-size="24"></span></span>
         <span class="list-tower-name">法师</span>
       </div>
       <div class="tower-list-item element-water">
-        <span class="list-tower-icon">❄️</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="ice" data-icon-size="24"></span></span>
         <span class="list-tower-name">冰霜</span>
       </div>
       <div class="tower-list-item element-thunder">
-        <span class="list-tower-icon">⚡</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="thunder" data-icon-size="24"></span></span>
         <span class="list-tower-name">雷电</span>
       </div>
       <div class="tower-list-item element-poison">
-        <span class="list-tower-icon">☠️</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="poison" data-icon-size="24"></span></span>
         <span class="list-tower-name">剧毒</span>
       </div>
       <div class="tower-list-item element-light">
-        <span class="list-tower-icon">✝️</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="light" data-icon-size="24"></span></span>
         <span class="list-tower-name">圣光</span>
       </div>
       <div class="tower-list-item element-mech">
-        <span class="list-tower-icon">⚙️</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="mech" data-icon-size="24"></span></span>
         <span class="list-tower-name">机械</span>
       </div>
       <div class="tower-list-item element-dark">
-        <span class="list-tower-icon">🌑</span>
+        <span class="list-tower-icon"><span class="icon-wrap" data-icon="dark" data-icon-size="24"></span></span>
         <span class="list-tower-name">暗影</span>
       </div>
     </div>
     <div class="tower-detail">
       <div class="tower-detail-header">
-        <div class="tower-detail-icon element-nature">🏹</div>
+        <div class="tower-detail-icon element-nature"><span class="icon-wrap" data-icon="archer" data-icon-size="36"></span></div>
         <div class="tower-detail-name">精灵弓箭手</div>
-        <div class="tower-detail-level">Lv.15 ★★★☆</div>
+        <div class="tower-detail-level">Lv.15 <span class="icon-wrap" data-icon="star" data-icon-size="12"></span><span class="icon-wrap" data-icon="star" data-icon-size="12"></span><span class="icon-wrap" data-icon="star" data-icon-size="12"></span><span class="icon-wrap" data-icon="starEmpty" data-icon-size="12"></span></div>
       </div>
       <div class="tower-stats">
         <div class="tower-stat">
@@ -2925,30 +2928,30 @@ body::before {
       <div class="skill-tree">
         <div class="skill-tree-title">技能树</div>
         <div class="skill-tree-visual">
-          <div class="skill-node unlocked">🏹</div>
+          <div class="skill-node unlocked"><span class="icon-wrap" data-icon="archer" data-icon-size="20"></span></div>
           <div class="skill-connector active"></div>
-          <div class="skill-node unlocked">🎯</div>
+          <div class="skill-node unlocked"><span class="icon-wrap" data-icon="target" data-icon-size="20"></span></div>
           <div class="skill-connector active"></div>
-          <div class="skill-node available">💥</div>
+          <div class="skill-node available"><span class="icon-wrap" data-icon="explosion" data-icon-size="20"></span></div>
           <div class="skill-connector"></div>
-          <div class="skill-node">🌀</div>
+          <div class="skill-node"><span class="icon-wrap" data-icon="cyclone" data-icon-size="20"></span></div>
         </div>
       </div>
       <div class="skill-tree-title" style="margin-bottom:8px">觉醒分支</div>
       <div class="branch-select">
         <div class="branch-card selected">
-          <div class="branch-icon">🏹</div>
+          <div class="branch-icon"><span class="icon-wrap" data-icon="archer" data-icon-size="28"></span></div>
           <div class="branch-name">穿透之箭</div>
           <div class="branch-desc">攻击穿透2个目标</div>
         </div>
         <div class="branch-card">
-          <div class="branch-icon">🌪️</div>
+          <div class="branch-icon"><span class="icon-wrap" data-icon="tornado" data-icon-size="28"></span></div>
           <div class="branch-name">箭雨风暴</div>
           <div class="branch-desc">范围AOE伤害</div>
         </div>
       </div>
       <div style="margin-top:16px">
-        <button class="btn btn-primary btn-block btn-lg">升级 (🪙 2,000)</button>
+        <button class="btn btn-primary btn-block btn-lg">升级 (<span class="icon-wrap" data-icon="gold" data-icon-size="16"></span> 2,000)</button>
       </div>
     </div>
   </div>
@@ -2956,16 +2959,16 @@ body::before {
 
 <div id="screen-pvp" class="screen">
   <div class="pvp-content">
-    <div class="pvp-title">🏆 竞技场</div>
+    <div class="pvp-title"><span class="icon-wrap" data-icon="trophy" data-icon-size="24"></span> 竞技场</div>
     <div class="pvp-players">
       <div class="pvp-player">
-        <div class="pvp-avatar" style="background:linear-gradient(135deg,var(--color-primary),var(--color-primary-light))">🧙</div>
+        <div class="pvp-avatar" style="background:linear-gradient(135deg,var(--color-primary),var(--color-primary-light))"><span class="icon-wrap" data-icon="mage" data-icon-size="28"></span></div>
         <div class="pvp-name">觉醒者</div>
         <div class="pvp-rank">钻石 III</div>
       </div>
       <div class="pvp-vs">VS</div>
       <div class="pvp-player">
-        <div class="pvp-avatar" style="background:linear-gradient(135deg,var(--color-warning),var(--color-secondary))">🤖</div>
+        <div class="pvp-avatar" style="background:linear-gradient(135deg,var(--color-warning),var(--color-secondary))"><span class="icon-wrap" data-icon="friend" data-icon-size="28"></span></div>
         <div class="pvp-name">等待匹配...</div>
         <div class="pvp-rank">---</div>
       </div>
@@ -2990,7 +2993,7 @@ body::before {
 
 <div id="screen-social" class="screen">
   <div class="social-header">
-    <div class="social-title">👥 社交</div>
+    <div class="social-title"><span class="icon-wrap" data-icon="social" data-icon-size="20"></span> 社交</div>
     <button class="btn btn-sm btn-ghost">+ 添加好友</button>
   </div>
   <div class="social-tabs">
@@ -3000,7 +3003,7 @@ body::before {
   </div>
   <div class="social-content">
     <div class="friend-item">
-      <div class="friend-avatar" style="background:linear-gradient(135deg,#00E68A,#22C55E)">🧝</div>
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#00E68A,#22C55E)"><span class="icon-wrap" data-icon="friend" data-icon-size="24"></span></div>
       <div class="friend-info">
         <div class="friend-name">森林守卫</div>
         <div class="friend-status" style="color:var(--color-accent-green)">● 在线</div>
@@ -3008,7 +3011,7 @@ body::before {
       <button class="friend-action btn btn-sm btn-primary">约战</button>
     </div>
     <div class="friend-item">
-      <div class="friend-avatar" style="background:linear-gradient(135deg,#A855F7,#C084FC)">🧛</div>
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#A855F7,#C084FC)"><span class="icon-wrap" data-icon="friend" data-icon-size="24"></span></div>
       <div class="friend-info">
         <div class="friend-name">暗夜猎手</div>
         <div class="friend-status" style="color:var(--color-accent-green)">● 在线</div>
@@ -3016,7 +3019,7 @@ body::before {
       <button class="friend-action btn btn-sm btn-primary">约战</button>
     </div>
     <div class="friend-item">
-      <div class="friend-avatar" style="background:linear-gradient(135deg,#FF7A3D,#FFB366)">🧙</div>
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#FF7A3D,#FFB366)"><span class="icon-wrap" data-icon="friend" data-icon-size="24"></span></div>
       <div class="friend-info">
         <div class="friend-name">火焰法师</div>
         <div class="friend-status">○ 3小时前</div>
@@ -3024,7 +3027,7 @@ body::before {
       <button class="friend-action btn btn-sm btn-ghost">邀请</button>
     </div>
     <div class="friend-item">
-      <div class="friend-avatar" style="background:linear-gradient(135deg,#5B8DEF,#7BA4FF)">🤖</div>
+      <div class="friend-avatar" style="background:linear-gradient(135deg,#5B8DEF,#7BA4FF)"><span class="icon-wrap" data-icon="friend" data-icon-size="24"></span></div>
       <div class="friend-info">
         <div class="friend-name">钢铁堡垒</div>
         <div class="friend-status">○ 昨天</div>
@@ -3036,7 +3039,7 @@ body::before {
 
 <div id="screen-battlepass" class="screen">
   <div class="bp-header">
-    <div class="bp-title">🎖️ 战令</div>
+    <div class="bp-title"><span class="icon-wrap" data-icon="trophy" data-icon-size="20"></span> 战令</div>
     <button class="btn btn-sm btn-primary">解锁高级</button>
   </div>
   <div class="bp-season-info">
@@ -3066,35 +3069,35 @@ body::before {
   <div class="bp-rewards-scroll">
     <div class="bp-rewards-row">
       <div class="bp-reward-node claimed">
-        <div class="bp-node-icon">🪙</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="gold" data-icon-size="20"></span></div>
         <div class="bp-node-level">1</div>
       </div>
       <div class="bp-reward-node claimed">
-        <div class="bp-node-icon">⚡</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="energy" data-icon-size="20"></span></div>
         <div class="bp-node-level">5</div>
       </div>
       <div class="bp-reward-node claimed">
-        <div class="bp-node-icon">📦</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="chest" data-icon-size="20"></span></div>
         <div class="bp-node-level">10</div>
       </div>
       <div class="bp-reward-node current">
-        <div class="bp-node-icon">💎</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="gem" data-icon-size="20"></span></div>
         <div class="bp-node-level">15</div>
       </div>
       <div class="bp-reward-node">
-        <div class="bp-node-icon">🏹</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="archer" data-icon-size="20"></span></div>
         <div class="bp-node-level">20</div>
       </div>
       <div class="bp-reward-node">
-        <div class="bp-node-icon">🎭</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="skin" data-icon-size="20"></span></div>
         <div class="bp-node-level">25</div>
       </div>
       <div class="bp-reward-node">
-        <div class="bp-node-icon">🏆</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="trophy" data-icon-size="20"></span></div>
         <div class="bp-node-level">30</div>
       </div>
       <div class="bp-reward-node">
-        <div class="bp-node-icon">👑</div>
+        <div class="bp-node-icon"><span class="icon-wrap" data-icon="crown" data-icon-size="20"></span></div>
         <div class="bp-node-level">50</div>
       </div>
     </div>
@@ -3200,12 +3203,12 @@ body::before {
     <div class="branch-dialog-title">选择觉醒分支</div>
     <div class="branch-dialog-cards">
       <div class="branch-dialog-card selected">
-        <div class="bd-icon">🏹</div>
+        <div class="bd-icon"><span class="icon-wrap" data-icon="archer" data-icon-size="32"></span></div>
         <div class="bd-name">穿透之箭</div>
         <div class="bd-desc">攻击穿透2个目标，造成连锁伤害</div>
       </div>
       <div class="branch-dialog-card">
-        <div class="bd-icon">🌪️</div>
+        <div class="bd-icon"><span class="icon-wrap" data-icon="tornado" data-icon-size="32"></span></div>
         <div class="bd-name">箭雨风暴</div>
         <div class="bd-desc">释放箭雨覆盖大范围区域</div>
       </div>
@@ -3216,9 +3219,9 @@ body::before {
 
 <div id="dialog-shop-confirm" class="dialog-overlay">
   <div class="dialog-box">
-    <div class="confirm-icon">📦</div>
+    <div class="confirm-icon"><span class="icon-wrap" data-icon="chest" data-icon-size="48"></span></div>
     <div class="confirm-title">确认购买</div>
-    <div class="confirm-desc">觉醒宝箱 ×1<br>消耗 💎 120</div>
+    <div class="confirm-desc">觉醒宝箱 ×1<br>消耗 <span class="icon-wrap" data-icon="gem" data-icon-size="16"></span> 120</div>
     <div class="confirm-actions">
       <button class="btn btn-ghost btn-block" data-action="cancel">取消</button>
       <button class="btn btn-primary btn-block" data-action="confirm">确认</button>
@@ -3228,19 +3231,19 @@ body::before {
 
 <div id="dialog-revive" class="dialog-overlay">
   <div class="dialog-box">
-    <div class="revive-title">💀 基地被摧毁!</div>
+    <div class="revive-title"><span class="icon-wrap" data-icon="close" data-icon-size="24"></span> 基地被摧毁!</div>
     <div class="revive-desc">选择一种方式继续战斗</div>
     <div class="revive-options">
       <div class="revive-option" data-action="revive-ad">
-        <span class="option-icon">📺</span>
+        <span class="option-icon"><span class="icon-wrap" data-icon="video" data-icon-size="32"></span></span>
         <span>观看广告复活</span>
       </div>
       <div class="revive-option" data-action="revive-share">
-        <span class="option-icon">📤</span>
+        <span class="option-icon"><span class="icon-wrap" data-icon="share" data-icon-size="32"></span></span>
         <span>分享给好友复活</span>
       </div>
       <div class="revive-option" data-action="revive-gem">
-        <span class="option-icon">💎</span>
+        <span class="option-icon"><span class="icon-wrap" data-icon="gem" data-icon-size="32"></span></span>
         <span>消耗50宝石复活</span>
       </div>
     </div>
@@ -3252,27 +3255,28 @@ body::before {
 
 <div class="tab-bar" id="mainTabBar">
   <div class="tab-item active" data-tab="home">
-    <span class="tab-icon">🏠</span>
+    <span class="tab-icon"><span class="icon-wrap" data-icon="home" data-icon-size="22"></span></span>
     <span class="tab-label">主页</span>
   </div>
   <div class="tab-item" data-tab="battle">
-    <span class="tab-icon">⚔️</span>
+    <span class="tab-icon"><span class="icon-wrap" data-icon="battle" data-icon-size="22"></span></span>
     <span class="tab-label">战斗</span>
   </div>
   <div class="tab-item" data-tab="shop">
-    <span class="tab-icon">🛒</span>
+    <span class="tab-icon"><span class="icon-wrap" data-icon="shop" data-icon-size="22"></span></span>
     <span class="tab-label">商店</span>
   </div>
   <div class="tab-item" data-tab="upgrade">
-    <span class="tab-icon">🏰</span>
+    <span class="tab-icon"><span class="icon-wrap" data-icon="upgrade" data-icon-size="22"></span></span>
     <span class="tab-label">养成</span>
   </div>
   <div class="tab-item" data-tab="social">
-    <span class="tab-icon">👥</span>
+    <span class="tab-icon"><span class="icon-wrap" data-icon="social" data-icon-size="22"></span></span>
     <span class="tab-label">社交</span>
   </div>
 </div>
 
+<script src="js/icons.js"></script>
 <script src="js/wx-compat.js"></script>
 <script src="js/config.js"></script>
 <script src="js/utils.js"></script>

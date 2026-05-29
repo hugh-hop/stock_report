@@ -63,15 +63,16 @@ window.GameMap = class GameMap {
 
   _addDecorations() {
     let themeDecor = {
-      forest: { trees: '🌲', rocks: '🪨', flowers: '🌸' },
-      lava: { trees: '🌋', rocks: '🪨', flowers: '🔥' },
-      ice: { trees: '🎄', rocks: '🧊', flowers: '❄️' }
+      forest: { trees: 'tree', rocks: 'rock', flowers: 'flower' },
+      lava: { trees: 'volcano', rocks: 'rock', flowers: 'flameLord' },
+      ice: { trees: 'tree', rocks: 'iceCrystal', flowers: 'iceCrystal' }
     };
     let decor = themeDecor[this.theme] || themeDecor.forest;
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
         if (this.grid[r][c] === 2 && Math.random() > 0.3) {
-          this.decorations.push({ col: c, row: r, icon: Math.random() > 0.5 ? decor.trees : decor.rocks });
+          let iconName = Math.random() > 0.5 ? decor.trees : decor.rocks;
+          this.decorations.push({ col: c, row: r, icon: iconName });
         }
       }
     }
@@ -139,19 +140,37 @@ window.GameMap = class GameMap {
       }
     }
 
-    ctx.font = `${G * 0.6}px serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
     for (let d of this.decorations) {
       let pos = Utils.gridToPixel(d.col, d.row);
-      ctx.fillText(d.icon, pos.x, pos.y);
+      if (window.Icons) {
+        let img = Icons.createImage(d.icon, Math.floor(GameConfig.GRID_SIZE * 0.6), '#5A6380');
+        if (img.complete && img.naturalWidth > 0) {
+          ctx.drawImage(img, pos.x - GameConfig.GRID_SIZE * 0.3, pos.y - GameConfig.GRID_SIZE * 0.3, GameConfig.GRID_SIZE * 0.6, GameConfig.GRID_SIZE * 0.6);
+        }
+      }
     }
 
+    let entryIcon = window.Icons ? Icons.createImage('entry', Math.floor(GameConfig.GRID_SIZE * 0.7), '#4ECB71') : null;
+    let exitIcon = window.Icons ? Icons.createImage('exit', Math.floor(GameConfig.GRID_SIZE * 0.7), '#FF6B6B') : null;
     let entry = this.getEntryPixel();
     let exit = this.getExitPixel();
-    ctx.font = `${G * 0.7}px serif`;
-    ctx.fillText('🚪', entry.x, entry.y);
-    ctx.fillText('🏠', exit.x, exit.y);
+    let markerSize = GameConfig.GRID_SIZE * 0.7;
+    if (entryIcon && entryIcon.complete && entryIcon.naturalWidth > 0) {
+      ctx.drawImage(entryIcon, entry.x - markerSize/2, entry.y - markerSize/2, markerSize, markerSize);
+    } else {
+      ctx.fillStyle = '#4ECB71';
+      ctx.beginPath();
+      ctx.arc(entry.x, entry.y, markerSize/3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (exitIcon && exitIcon.complete && exitIcon.naturalWidth > 0) {
+      ctx.drawImage(exitIcon, exit.x - markerSize/2, exit.y - markerSize/2, markerSize, markerSize);
+    } else {
+      ctx.fillStyle = '#FF6B6B';
+      ctx.beginPath();
+      ctx.arc(exit.x, exit.y, markerSize/3, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     ctx.strokeStyle = colors.grid;
     ctx.lineWidth = 0.5;

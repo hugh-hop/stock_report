@@ -14,8 +14,8 @@ window.BattlePassSystem = class BattlePassSystem {
   _generateRewards(isPremium) {
     let rewards = [];
     let types = isPremium
-      ? [{ icon: '💎', count: 50 }, { icon: '📦', count: 1 }, { icon: '🎭', count: 1 }, { icon: '🏹', count: 1 }, { icon: '👑', count: 1 }]
-      : [{ icon: '🪙', count: 500 }, { icon: '⚡', count: 30 }, { icon: '📦', count: 1 }, { icon: '💎', count: 20 }, { icon: '🏆', count: 1 }];
+      ? [{ icon: 'gem', count: 50 }, { icon: 'chest', count: 1 }, { icon: 'skin', count: 1 }, { icon: 'archer', count: 1 }, { icon: 'crown', count: 1 }]
+      : [{ icon: 'gold', count: 500 }, { icon: 'energy', count: 30 }, { icon: 'chest', count: 1 }, { icon: 'gem', count: 20 }, { icon: 'trophy', count: 1 }];
     for (let i = 0; i < this.maxLevel; i += 5) {
       let t = types[(i / 5) % types.length];
       rewards.push({ level: i + 1, icon: t.icon, count: t.count, claimed: i < this.level });

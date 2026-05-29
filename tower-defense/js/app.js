@@ -131,4 +131,5 @@ window.addEventListener('DOMContentLoaded', () => {
   let app = new App();
   window.gameApp = app;
   app.init();
+  if (window.Icons) Icons.init();
 });

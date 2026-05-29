@@ -403,9 +403,10 @@ window.UIManager = class UIManager {
       let rarityClass = `rarity-border-${buff.rarity}`;
       let card = document.createElement('div');
       card.className = `rogue-card ${rarityClass}`;
+      let iconSvg = window.Icons ? Icons.get(buff.icon, 40, buff.color) : buff.icon;
       card.innerHTML = `
         <div class="card-rarity" style="background:${buff.color}"></div>
-        <div class="card-icon" style="background:${buff.color}20">${buff.icon}</div>
+        <div class="card-icon" style="background:${buff.color}20">${iconSvg}</div>
         <div class="card-name">${buff.name}</div>
         <div class="card-desc">${buff.desc}</div>
       `;
@@ -442,13 +443,13 @@ window.UIManager = class UIManager {
     let badge = screen.querySelector('.result-badge');
     let title = screen.querySelector('.result-title');
     badge.className = `result-badge ${result.victory ? 'victory' : 'defeat'}`;
-    badge.textContent = result.victory ? '🏆' : '💀';
+    badge.innerHTML = result.victory ? (window.Icons ? Icons.get('trophy', 48, '#FFD700') : '🏆') : (window.Icons ? Icons.get('close', 48, '#FF4757') : '💀');
     title.className = `result-title ${result.victory ? 'victory' : 'defeat'}`;
     title.textContent = result.victory ? '胜利!' : '失败...';
     let stars = screen.querySelectorAll('.star');
     stars.forEach((s, i) => {
       s.className = i < result.stars ? 'star filled' : 'star';
-      s.textContent = i < result.stars ? '⭐' : '☆';
+      s.innerHTML = i < result.stars ? (window.Icons ? Icons.get('star', 28, '#FFD700') : '⭐') : (window.Icons ? Icons.get('starEmpty', 28, '#5A6380') : '☆');
     });
     let rewards = screen.querySelectorAll('.reward-amount');
     if (rewards[0]) rewards[0].textContent = '+' + result.goldEarned;

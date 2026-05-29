@@ -37,6 +37,17 @@ window.Enemy = class Enemy {
     this.animTimer = 0;
     this.hitFlash = 0;
     this.skillTimer = isBoss ? 5 : 0;
+    this._iconImage = null;
+    this._iconLoaded = false;
+  }
+
+  _loadIcon() {
+    if (this._iconLoaded) return;
+    this._iconLoaded = true;
+    if (window.Icons) {
+      let size = Math.floor(GameConfig.GRID_SIZE * 0.35 * this.size * 1.4);
+      this._iconImage = Icons.createImage(this.icon, size, this.color);
+    }
   }
 
   takeDamage(dmg, armorPen = 0) {
@@ -172,10 +183,17 @@ window.Enemy = class Enemy {
     ctx.arc(x, y + bobY, r, 0, Math.PI * 2);
     ctx.stroke();
 
-    ctx.font = `${r * 1.4}px serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(this.icon, x, y + bobY);
+    this._loadIcon();
+    if (this._iconImage && this._iconImage.complete && this._iconImage.naturalWidth > 0) {
+      let iconSize = G * 0.35 * this.size * 1.4;
+      ctx.drawImage(this._iconImage, x - iconSize/2, y + bobY - iconSize/2, iconSize, iconSize);
+    } else {
+      ctx.fillStyle = '#E8ECF4';
+      ctx.font = `bold ${G * 0.25 * this.size}px Rajdhani, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.name.charAt(0), x, y + bobY);
+    }
 
     let barW = r * 2.5, barH = 4;
     let barX = x - barW / 2, barY = y - r - 10 + bobY;
@@ -192,17 +210,42 @@ window.Enemy = class Enemy {
       ctx.fillRect(barX, barY - 5, barW * shieldRatio, 3);
     }
 
-    let statusX = x + r + 3, statusY = y - r + bobY;
-    ctx.font = '10px serif';
-    if (this.freezeTimer > 0) { ctx.fillText('🧊', statusX, statusY); statusY += 12; }
-    if (this.stunTimer > 0 && this.freezeTimer <= 0) { ctx.fillText('💫', statusX, statusY); statusY += 12; }
-    if (this.slowTimer > 0) { ctx.fillText('❄️', statusX, statusY); statusY += 12; }
-    if (this.poisonTimer > 0) { ctx.fillText('☠️', statusX, statusY); statusY += 12; }
-    if (this.burnTimer > 0) { ctx.fillText('🔥', statusX, statusY); statusY += 12; }
+    let statusIcons = [];
+    if (this.freezeTimer > 0) statusIcons.push({ color: '#5B8DEF', label: 'F' });
+    if (this.stunTimer > 0 && this.freezeTimer <= 0) statusIcons.push({ color: '#FFD700', label: 'S' });
+    if (this.slowTimer > 0) statusIcons.push({ color: '#7BA4FF', label: 'W' });
+    if (this.poisonTimer > 0) statusIcons.push({ color: '#84CC16', label: 'P' });
+    if (this.burnTimer > 0) statusIcons.push({ color: '#FF7A3D', label: 'B' });
+    for (let i = 0; i < statusIcons.length; i++) {
+      let si = statusIcons[i];
+      let sx = x + r + 3, sy = y - r + bobY + i * 12;
+      ctx.fillStyle = si.color;
+      ctx.globalAlpha = 0.8;
+      ctx.beginPath();
+      ctx.arc(sx + 5, sy, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#0B0E17';
+      ctx.font = 'bold 7px Rajdhani, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(si.label, sx + 5, sy);
+      ctx.globalAlpha = 1;
+    }
 
     if (this.isBoss) {
-      ctx.font = `${r * 0.8}px serif`;
-      ctx.fillText('👑', x, y - r - 14 + bobY);
+      ctx.fillStyle = '#FFD700';
+      let cr = G * 0.15 * this.size;
+      let cy = y - r - 14 + bobY;
+      ctx.beginPath();
+      ctx.moveTo(x - cr, cy + cr);
+      ctx.lineTo(x - cr, cy);
+      ctx.lineTo(x - cr/2, cy + cr/2);
+      ctx.lineTo(x, cy);
+      ctx.lineTo(x + cr/2, cy + cr/2);
+      ctx.lineTo(x + cr, cy);
+      ctx.lineTo(x + cr, cy + cr);
+      ctx.closePath();
+      ctx.fill();
     }
   }
 };

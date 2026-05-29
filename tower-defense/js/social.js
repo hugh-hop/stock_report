@@ -1,10 +1,10 @@
 window.SocialSystem = class SocialSystem {
   constructor() {
     this.friends = [
-      { id: 1, name: '森林守卫', avatar: '🧝', online: true, lastSeen: null, level: 25 },
-      { id: 2, name: '暗夜猎手', avatar: '🧛', online: true, lastSeen: null, level: 30 },
-      { id: 3, name: '火焰法师', avatar: '🧙', online: false, lastSeen: '3小时前', level: 22 },
-      { id: 4, name: '钢铁堡垒', avatar: '🤖', online: false, lastSeen: '昨天', level: 18 }
+      { id: 1, name: '森林守卫', avatar: 'friend', online: true, lastSeen: null, level: 25 },
+      { id: 2, name: '暗夜猎手', avatar: 'rank', online: true, lastSeen: null, level: 30 },
+      { id: 3, name: '火焰法师', avatar: 'mage', online: false, lastSeen: '3小时前', level: 22 },
+      { id: 4, name: '钢铁堡垒', avatar: 'mech', online: false, lastSeen: '昨天', level: 18 }
     ];
     this.leaderboard = this._generateLeaderboard();
   }
@@ -24,7 +24,7 @@ window.SocialSystem = class SocialSystem {
   getLeaderboard() { return this.leaderboard; }
 
   addFriend(name) {
-    this.friends.push({ id: Date.now(), name, avatar: '🤖', online: false, lastSeen: '刚刚', level: 1 });
+    this.friends.push({ id: Date.now(), name, avatar: 'friend', online: false, lastSeen: '刚刚', level: 1 });
   }
 
   sendEnergy(friendId) {

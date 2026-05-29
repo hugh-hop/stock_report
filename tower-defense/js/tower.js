@@ -38,6 +38,16 @@ window.Tower = class Tower {
     this.skillCooldown = 0;
     this.x = col * GameConfig.GRID_SIZE + GameConfig.GRID_SIZE / 2;
     this.y = row * GameConfig.GRID_SIZE + GameConfig.GRID_SIZE / 2;
+    this._iconImage = null;
+    this._iconLoaded = false;
+  }
+
+  _loadIcon() {
+    if (this._iconLoaded) return;
+    this._iconLoaded = true;
+    if (window.Icons) {
+      this._iconImage = Icons.createImage(this.icon, Math.floor(GameConfig.GRID_SIZE * 0.5), this.color);
+    }
   }
 
   getUpgradeCost() {
@@ -213,10 +223,17 @@ window.Tower = class Tower {
       ctx.fill();
     }
 
-    ctx.font = `${G * 0.5}px serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(this.icon, x, y);
+    this._loadIcon();
+    if (this._iconImage && this._iconImage.complete && this._iconImage.naturalWidth > 0) {
+      let iconSize = G * 0.5;
+      ctx.drawImage(this._iconImage, x - iconSize/2, y - iconSize/2, iconSize, iconSize);
+    } else {
+      ctx.fillStyle = '#E8ECF4';
+      ctx.font = `bold ${G * 0.35}px Rajdhani, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.name.charAt(0), x, y);
+    }
 
     if (this.target) {
       ctx.strokeStyle = this.color;
