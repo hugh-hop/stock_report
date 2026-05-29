@@ -335,7 +335,7 @@ window.UIManager = class UIManager {
       if (topBar) {
         goldEl = document.createElement('div');
         goldEl.className = 'battle-gold';
-        goldEl.style.cssText = 'background:rgba(255,210,63,0.2);color:#FFD23F;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;';
+        goldEl.style.cssText = 'background:rgba(255,215,0,0.15);color:#FFD700;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;';
         topBar.querySelector('.battle-info')?.appendChild(goldEl);
       }
     }
