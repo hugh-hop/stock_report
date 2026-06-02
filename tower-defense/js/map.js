@@ -217,7 +217,7 @@ window.GameMap = class GameMap {
           for (let dr = -1; dr <= 1 && !nearPath; dr++) {
             for (let dc = -1; dc <= 1 && !nearPath; dc++) {
               let nr = r+dr, nc = c+dc;
-              if (nr>=0&&nr<R&&nc>=0&&nc<C&&this.grid[nr][nc]===0) nearPath = true;
+              if (nr >=0 && nr < R && nc >=0 && nc < C && this.grid[nr][nc] === 0) nearPath = true;
             }
           }
           ctx.fillStyle = nearPath ? t.buildableNear : t.buildable;
@@ -323,9 +323,11 @@ GameMap.LAYOUTS = [
   {
     path: (function() {
       let p = [];
-      for (let r = 0; r <= 5; r++) p.push({col:4,row:r});
-      for (let c = 4; c <= 7; c++) p.push({col:c,row:5});
-      for (let r = 6; r <= 13; r++) p.push({col:7,row:r});
+      for (let r = 0; r <= 7; r++) p.push({col:4,row:r});
+      for (let c = 4; c <= 7; c++) p.push({col:c,row:7});
+      for (let r = 8; r <= 10; r++) p.push({col:7,row:r});
+      for (let c = 7; c >= 2; c--) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:2,row:r});
       return p;
     })(),
     obstacles: [{col:0,row:0},{col:1,row:2},{col:8,row:1},{col:3,row:8},{col:5,row:10}],
@@ -413,13 +415,16 @@ GameMap.LAYOUTS = [
       let p = [];
       p.push({col:4,row:0});
       for (let r = 1; r <= 3; r++) p.push({col:4,row:r});
+      for (let c = 3; c >= 2; c--) p.push({col:c,row:3});
       for (let r = 4; r <= 7; r++) p.push({col:2,row:r});
-      for (let c = 2; c <= 3; c++) p.push({col:c,row:8});
-      for (let r = 9; r <= 13; r++) p.push({col:4,row:r});
+      for (let c = 2; c <= 6; c++) p.push({col:c,row:7});
+      for (let r = 8; r <= 10; r++) p.push({col:6,row:r});
+      for (let c = 5; c >= 4; c--) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:4,row:r});
       return p;
     })(),
     obstacles: [{col:0,row:5},{col:6,row:2},{col:7,row:6},{col:1,row:10}],
-    strategicZones: [{col:3,row:2},{col:5,row:2},{col:1,row:5},{col:3,row:5},{col:5,row:5},{col:3,row:10},{col:5,row:10}]
+    strategicZones: [{col:3,row:2},{col:5,row:2},{col:1,row:7},{col:3,row:7},{col:5,row:7},{col:3,row:10},{col:5,row:10}]
   },
   {
     path: (function() {
@@ -442,20 +447,29 @@ GameMap.LAYOUTS = [
     path: (function() {
       let p = [];
       p.push({col:4,row:0});
-      for (let r = 1; r <= 6; r++) p.push({col:4,row:r});
-      for (let c = 4; c <= 5; c++) p.push({col:c,row:6});
-      for (let r = 7; r <= 13; r++) p.push({col:5,row:r});
+      for (let c = 4; c >= 1; c--) p.push({col:c,row:0});
+      for (let r = 1; r <= 3; r++) p.push({col:1,row:r});
+      for (let c = 1; c <= 7; c++) p.push({col:c,row:3});
+      for (let r = 4; r <= 6; r++) p.push({col:7,row:r});
+      for (let c = 7; c >= 1; c--) p.push({col:c,row:6});
+      for (let r = 7; r <= 10; r++) p.push({col:1,row:r});
+      for (let c = 1; c <= 7; c++) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:7,row:r});
       return p;
     })(),
-    obstacles: [{col:0,row:0},{col:8,row:0},{col:0,row:13},{col:8,row:13},{col:1,row:4},{col:7,row:4},{col:1,row:9},{col:7,row:9}],
+    obstacles: [{col:0,row:0},{col:8,row:0},{col:0,row:13},{col:8,row:13},{col:4,row:2},{col:4,row:5},{col:4,row:8},{col:4,row:11}],
     strategicZones: [{col:2,row:3},{col:6,row:3},{col:3,row:5},{col:7,row:5},{col:2,row:8},{col:6,row:8},{col:3,row:10},{col:7,row:10}]
   },
   {
     path: (function() {
       let p = [];
       p.push({col:0,row:0});
-      for (let i = 0; i <= 8; i++) p.push({col:Math.min(i, 8), row:Math.min(i, 8)});
-      for (let r = 9; r <= 13; r++) p.push({col:8,row:r});
+      for (let c = 0; c <= 8; c++) p.push({col:c,row:0});
+      for (let r = 1; r <= 3; r++) p.push({col:8,row:r});
+      for (let c = 8; c >= 0; c--) p.push({col:c,row:3});
+      for (let r = 4; r <= 6; r++) p.push({col:0,row:r});
+      for (let c = 0; c <= 8; c++) p.push({col:c,row:6});
+      for (let r = 7; r <= 13; r++) p.push({col:8,row:r});
       return p;
     })(),
     obstacles: [{col:2,row:1},{col:5,row:3},{col:3,row:6},{col:6,row:5},{col:7,row:8}],
@@ -499,8 +513,10 @@ GameMap.LAYOUTS = [
       p.push({col:4,row:0});
       for (let r = 1; r <= 4; r++) p.push({col:4,row:r});
       for (let c = 4; c >= 2; c--) p.push({col:c,row:5});
-      for (let r = 6; r <= 9; r++) p.push({col:2,row:r});
-      for (let c = 2; c <= 4; c++) p.push({col:c,row:10});
+      for (let r = 6; r <= 7; r++) p.push({col:2,row:r});
+      for (let c = 2; c <= 6; c++) p.push({col:c,row:7});
+      for (let r = 8; r <= 10; r++) p.push({col:6,row:r});
+      for (let c = 6; c >= 4; c--) p.push({col:c,row:10});
       for (let r = 11; r <= 13; r++) p.push({col:4,row:r});
       return p;
     })(),
@@ -544,12 +560,16 @@ GameMap.LAYOUTS = [
     path: (function() {
       let p = [];
       p.push({col:4,row:0});
-      for (let r = 1; r <= 6; r++) p.push({col:4,row:r});
-      for (let c = 4; c <= 7; c++) p.push({col:c,row:7});
-      for (let r = 8; r <= 13; r++) p.push({col:7,row:r});
+      for (let r = 1; r <= 3; r++) p.push({col:4,row:r});
+      for (let c = 4; c <= 7; c++) p.push({col:c,row:3});
+      for (let r = 4; r <= 6; r++) p.push({col:7,row:r});
+      for (let c = 7; c >= 1; c--) p.push({col:c,row:6});
+      for (let r = 7; r <= 10; r++) p.push({col:1,row:r});
+      for (let c = 1; c <= 7; c++) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:7,row:r});
       return p;
     })(),
-    obstacles: [{col:2,row:2},{col:6,row:2},{col:2,row:5},{col:6,row:5},{col:2,row:10},{col:5,row:11}],
+    obstacles: [{col:2,row:2},{col:6,row:2},{col:2,row:6},{col:6,row:5},{col:2,row:10},{col:5,row:11}],
     strategicZones: [{col:3,row:3},{col:5,row:3},{col:3,row:5},{col:5,row:5},{col:5,row:9},{col:6,row:10}]
   },
   {
@@ -573,9 +593,14 @@ GameMap.LAYOUTS = [
     path: (function() {
       let p = [];
       p.push({col:2,row:0});
-      for (let r = 1; r <= 5; r++) p.push({col:2,row:r});
+      for (let c = 2; c <= 6; c++) p.push({col:c,row:0});
+      for (let r = 1; r <= 3; r++) p.push({col:6,row:r});
+      for (let c = 6; c >= 2; c--) p.push({col:c,row:3});
+      for (let r = 4; r <= 6; r++) p.push({col:2,row:r});
       for (let c = 2; c <= 6; c++) p.push({col:c,row:6});
-      for (let r = 7; r <= 13; r++) p.push({col:6,row:r});
+      for (let r = 7; r <= 10; r++) p.push({col:6,row:r});
+      for (let c = 6; c >= 2; c--) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:2,row:r});
       return p;
     })(),
     obstacles: [{col:0,row:0},{col:8,row:0},{col:0,row:13},{col:8,row:13},{col:0,row:6},{col:8,row:6},{col:4,row:3},{col:4,row:9}],
@@ -624,8 +649,8 @@ GameMap.LAYOUTS = [
       for (let r = 1; r <= 4; r++) p.push({col:4,row:r});
       for (let c = 4; c >= 1; c--) p.push({col:c,row:5});
       for (let r = 6; r <= 9; r++) p.push({col:1,row:r});
-      for (let c = 1; c <= 4; c++) p.push({col:c,row:10});
-      for (let r = 11; r <= 13; r++) p.push({col:4,row:r});
+      for (let c = 1; c <= 6; c++) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:6,row:r});
       return p;
     })(),
     obstacles: [{col:7,row:2},{col:6,row:4},{col:7,row:7},{col:3,row:8},{col:6,row:12}],
@@ -651,7 +676,14 @@ GameMap.LAYOUTS = [
     path: (function() {
       let p = [];
       p.push({col:4,row:0});
-      for (let r = 1; r <= 13; r++) p.push({col:4,row:r});
+      for (let c = 4; c <= 7; c++) p.push({col:c,row:0});
+      for (let r = 1; r <= 3; r++) p.push({col:7,row:r});
+      for (let c = 7; c >= 1; c--) p.push({col:c,row:3});
+      for (let r = 4; r <= 6; r++) p.push({col:1,row:r});
+      for (let c = 1; c <= 7; c++) p.push({col:c,row:6});
+      for (let r = 7; r <= 9; r++) p.push({col:7,row:r});
+      for (let c = 7; c >= 4; c--) p.push({col:c,row:9});
+      for (let r = 10; r <= 13; r++) p.push({col:4,row:r});
       return p;
     })(),
     obstacles: [{col:0,row:2},{col:1,row:5},{col:0,row:8},{col:1,row:11},{col:8,row:2},{col:7,row:5},{col:8,row:8},{col:7,row:11}],
@@ -713,14 +745,17 @@ GameMap.LAYOUTS = [
     path: (function() {
       let p = [];
       p.push({col:4,row:0});
-      for (let r = 1; r <= 4; r++) p.push({col:4,row:r});
-      for (let c = 4; c <= 5; c++) p.push({col:c,row:5});
-      for (let r = 6; r <= 8; r++) p.push({col:5,row:r});
-      for (let c = 5; c >= 4; c--) p.push({col:c,row:9});
-      for (let r = 10; r <= 13; r++) p.push({col:4,row:r});
+      for (let c = 4; c >= 1; c--) p.push({col:c,row:0});
+      for (let r = 1; r <= 3; r++) p.push({col:1,row:r});
+      for (let c = 1; c <= 7; c++) p.push({col:c,row:3});
+      for (let r = 4; r <= 6; r++) p.push({col:7,row:r});
+      for (let c = 7; c >= 1; c--) p.push({col:c,row:6});
+      for (let r = 7; r <= 10; r++) p.push({col:1,row:r});
+      for (let c = 1; c <= 7; c++) p.push({col:c,row:10});
+      for (let r = 11; r <= 13; r++) p.push({col:7,row:r});
       return p;
     })(),
-    obstacles: [{col:0,row:0},{col:8,row:0},{col:0,row:13},{col:8,row:13},{col:3,row:6},{col:3,row:7},{col:6,row:6},{col:6,row:7},{col:4,row:6},{col:4,row:7},{col:5,row:6},{col:5,row:7}],
+    obstacles: [{col:0,row:0},{col:8,row:0},{col:0,row:13},{col:8,row:13},{col:1,row:5},{col:7,row:5},{col:1,row:8},{col:7,row:8}],
     strategicZones: [{col:2,row:3},{col:6,row:3},{col:2,row:5},{col:7,row:5},{col:2,row:9},{col:7,row:9},{col:2,row:11},{col:6,row:11}]
   }
 ];
