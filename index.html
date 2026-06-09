@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelforge - AI 智能生图平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --bg-hover: #22222f;
+            --accent-primary: #6366f1;
+            --accent-secondary: #a855f7;
+            --accent-tertiary: #ec4899;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #1e1e2e;
+            --border-light: #2a2a3a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --glow: rgba(99, 102, 241, 0.4);
+            --glow-strong: rgba(99, 102, 241, 0.6);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+
+        /* Background Effects */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+        .bg-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--accent-primary);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+        .bg-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-secondary);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+        .bg-orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-tertiary);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 30px) scale(1.02); }
+        }
+
+        /* Layout */
+        .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px var(--glow);
+        }
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-tab {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-tab:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        .nav-tab.active {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            box-shadow: inset 0 -2px 0 var(--accent-primary);
+        }
+        .nav-tab svg {
+            width: 18px;
+            height: 18px;
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .icon-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border-light);
+        }
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px var(--glow);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 32px;
+            padding: 32px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Panel */
+        .panel {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel-title svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-primary);
+        }
+        .panel-body {
+            padding: 24px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        .form-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .prompt-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.2s ease;
+        }
+        .prompt-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .prompt-input::placeholder {
+            color: var(--text-muted);
+        }
+        .prompt-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+        .char-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 20px var(--glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px var(--glow-strong);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-light);
+        }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+        }
+        .btn-ghost:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        /* Style Grid */
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .style-card {
+            aspect-ratio: 1;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .style-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .style-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+        }
+        .style-card:hover::before {
+            opacity: 0.1;
+        }
+        .style-card.active {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--glow);
+        }
+        .style-card.active::before {
+            opacity: 0.15;
+        }
+        .style-card-icon {
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .style-card-name {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .style-card.active .style-card-name {
+            color: var(--text-primary);
+        }
+
+        /* Aspect Ratio */
+        .aspect-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .aspect-btn {
+            padding: 10px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .aspect-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        .aspect-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+        .aspect-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Slider */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            outline: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px var(--glow);
+            transition: all 0.2s ease;
+        }
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .slider-value {
+            min-width: 48px;
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        /* Generate Button */
+        .generate-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .generate-btn {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .generate-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+        }
+        .generate-btn:hover::after {
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+        .generate-btn.loading {
+            pointer-events: none;
+        }
+        .generate-btn.loading .btn-text {
+            opacity: 0;
+        }
+        .generate-btn .loading-spinner {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .generate-btn.loading .loading-spinner {
+            display: flex;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 160px);
+            position: sticky;
+            top: 100px;
+        }
+        .preview-main {
+            flex: 1;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            border: 2px dashed var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+        }
+        .preview-main.has-image {
+            border: none;
+            background: transparent;
+        }
+        .preview-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .preview-placeholder svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        .preview-placeholder h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .preview-placeholder p {
+            font-size: 0.9rem;
+        }
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .preview-actions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .preview-main:hover .preview-actions {
+            opacity: 1;
+        }
+        .preview-actions .icon-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Thumbnails Strip */
+        .thumbnails-strip {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+        .thumbnail {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        .thumbnail:hover {
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+        }
+        .thumbnail.active {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px var(--glow);
+        }
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Tabs Section */
+        .tabs-section {
+            margin-top: 40px;
+        }
+        .tabs-header {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-secondary);
+            padding: 6px;
+            border-radius: 12px;
+            width: fit-content;
+            margin-bottom: 24px;
+        }
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+        .tab-btn.active {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .tab-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .upload-zone:hover {
+            border-color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        .upload-zone svg {
+            width: 48px;
+            height: 48px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .upload-zone h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .upload-zone p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .upload-zone input {
+            display: none;
+        }
+
+        /* Upload Preview */
+        .upload-preview {
+            display: none;
+            gap: 24px;
+        }
+        .upload-preview.active {
+            display: flex;
+        }
+        .upload-preview-item {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        .upload-preview-item h5 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .upload-preview-item h5 svg {
+            width: 16px;
+            height: 16px;
+        }
+        .upload-image-container {
+            aspect-ratio: 1;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .upload-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .remove-upload {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            background: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .upload-image-container:hover .remove-upload {
+            opacity: 1;
+        }
+        .remove-upload svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Templates Grid */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .template-card {
+            aspect-ratio: 3/4;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        .template-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+        .template-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .template-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+        .template-card-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* History Section */
+        .history-section {
+            margin-top: 60px;
+            padding-bottom: 60px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-primary);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .gallery-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .gallery-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .gallery-card-image {
+            aspect-ratio: 1;
+            background: var(--bg-tertiary);
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .gallery-card:hover .gallery-card-overlay {
+            opacity: 1;
+        }
+        .gallery-card-info {
+            padding: 16px;
+        }
+        .gallery-card-prompt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .gallery-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .gallery-card-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .gallery-card-style {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            animation: slideIn 0.3s ease;
+            min-width: 300px;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .toast svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        .toast-success svg { color: var(--success); }
+        .toast-error svg { color: var(--error); }
+        .toast-info svg { color: var(--accent-primary); }
+        .toast-message {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+        }
+        .toast-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-close svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .preview-panel {
+                position: relative;
+                top: 0;
+                height: auto;
+            }
+            .preview-main {
+                min-height: 300px;
+            }
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            .header-nav {
+                order: 3;
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+            .nav-tab span {
+                display: none;
+            }
+            .style-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .upload-preview {
+                flex-direction: column;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        .fade-in-delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .fade-in-delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .fade-in-delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+        /* Icons */
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="sparkles"></i>
+                </div>
+                <span class="logo-text">PIXELFORGE</span>
+            </div>
+
+            <nav class="header-nav">
+                <button class="nav-tab active" data-tab="create">
+                    <i data-lucide="wand-2"></i>
+                    <span>AI 创建</span>
+                </button>
+                <button class="nav-tab" data-tab="gallery">
+                    <i data-lucide="image"></i>
+                    <span>我的画廊</span>
+                </button>
+                <button class="nav-tab" data-tab="templates">
+                    <i data-lucide="layout-template"></i>
+                    <span>模板中心</span>
+                </button>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn" title="历史记录">
+                    <i data-lucide="history"></i>
+                </button>
+                <button class="icon-btn" title="收藏">
+                    <i data-lucide="heart"></i>
+                </button>
+                <button class="icon-btn" title="设置">
+                    <i data-lucide="settings"></i>
+                </button>
+                <div class="user-avatar">P</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content fade-in">
+            <!-- Left Panel: Parameters -->
+            <aside class="panel fade-in-delay-1">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i data-lucide="sliders-horizontal"></i>
+                        生成参数
+                    </h2>
+                    <button class="btn btn-ghost btn-sm">
+                        <i data-lucide="reset"></i>
+                        重置
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <!-- Prompt Input -->
+                    <div class="form-group">
+                        <label class="form-label">提示词</label>
+                        <textarea 
+                            class="prompt-input" 
+                            id="promptInput"
+                            placeholder="描述你想要生成的图片内容，例如：一张精致的化妆品产品海报，浅色背景，高级感，商业摄影风格..."
+                        ></textarea>
+                        <div class="prompt-actions">
+                            <span class="char-count"><span id="charCount">0</span> / 500</span>
+                            <button class="btn btn-ghost btn-sm" id="enhanceBtn">
+                                <i data-lucide="sparkles"></i>
+                                AI 优化
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Negative Prompt -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <details style="display: inline;">
+                                <summary style="cursor: pointer;">负面提示词 ▼</summary>
+                            </details>
+                        </label>
+                        <textarea 
+                            class="prompt-input" 
+                            id="negativePrompt"
+                            style="min-height: 60px;"
+                            placeholder="不希望出现的元素，如：模糊、低质量、畸形..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Style Selection -->
+                    <div class="form-group">
+                        <label class="form-label">风格选择</label>
+                        <div class="style-grid" id="styleGrid">
+                            <div class="style-card active" data-style="photography">
+                                <span class="style-card-icon">📷</span>
+                                <span class="style-card-name">摄影</span>
+                            </div>
+                            <div class="style-card" data-style="realistic">
+                                <span class="style-card-icon">🎨</span>
+                                <span class="style-card-name">写实</span>
+                            </div>
+                            <div class="style-card" data-style="anime">
+                                <span class="style-card-icon">✨</span>
+                                <span class="style-card-name">动漫</span>
+                            </div>
+                            <div class="style-card" data-style="illustration">
+                                <span class="style-card-icon">🖌️</span>
+                                <span class="style-card-name">插画</span>
+                            </div>
+                            <div class="style-card" data-style="3d">
+                                <span class="style-card-icon">🎮</span>
+                                <span class="style-card-name">3D渲染</span>
+                            </div>
+                            <div class="style-card" data-style="abstract">
+                                <span class="style-card-icon">🔮</span>
+                                <span class="style-card-name">抽象</span>
+                            </div>
+                            <div class="style-card" data-style="poster">
+                                <span class="style-card-icon">�海报</span>
+                                <span class="style-card-name">商品海报</span>
+                            </div>
+                            <div class="style-card" data-style="minimalist">
+                                <span class="style-card-icon">◻️</span>
+                                <span class="style-card-name">极简</span>
+                            </div>
+                            <div class="style-card" data-style="vintage">
+                                <span class="style-card-icon">📽️</span>
+                                <span class="style-card-name">复古</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aspect Ratio -->
+                    <div class="form-group">
+                        <label class="form-label">图片尺寸</label>
+                        <div class="aspect-grid">
+                            <button class="aspect-btn active" data-ratio="1:1">
+                                <i data-lucide="square"></i>
+                                1:1
+                            </button>
+                            <button class="aspect-btn" data-ratio="3:4">
+                                <i data-lucide="image"></i>
+                                3:4
+                            </button>
+                            <button class="aspect-btn" data-ratio="4:3">
+                                <i data-lucide="image"></i>
+                                4:3
+                            </button>
+                            <button class="aspect-btn" data-ratio="16:9">
+                                <i data-lucide="monitor"></i>
+                                16:9
+                            </button>
+                            <button class="aspect-btn" data-ratio="9:16">
+                                <i data-lucide="smartphone"></i>
+                                9:16
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quality -->
+                    <div class="form-group">
+                        <label class="form-label">生成质量</label>
+                        <div class="slider-container">
+                            <input type="range" class="slider" id="qualitySlider" min="1" max="3" value="2">
+                            <div class="slider-value" id="qualityValue">标准</div>
+                        </div>
+                        <p class="form-hint">更高质量需要更长的生成时间</p>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="generate-section">
+                        <button class="btn btn-primary generate-btn" id="generateBtn">
+                            <i data-lucide="sparkles"></i>
+                            <span class="btn-text">开始生成</span>
+                            <div class="loading-spinner">
+                                <div class="spinner"></div>
+                                <span>生成中...</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Panel: Preview -->
+            <section class="preview-panel fade-in-delay-2">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <i data-lucide="eye"></i>
+                            实时预览
+                        </h2>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-secondary btn-sm" id="downloadAllBtn" style="display: none;">
+                                <i data-lucide="download"></i>
+                                下载全部
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="padding: 0;">
+                        <div class="preview-main" id="previewMain">
+                            <div class="preview-placeholder" id="previewPlaceholder">
+                                <i data-lucide="image-plus"></i>
+                                <h3>等待生成</h3>
+                                <p>输入提示词并点击生成按钮开始创作</p>
+                            </div>
+                            <img class="preview-image" id="previewImage" style="display: none;" alt="生成预览">
+                            <div class="preview-actions" id="previewActions" style="display: none;">
+                                <button class="icon-btn" title="下载" id="downloadBtn">
+                                    <i data-lucide="download"></i>
+                                </button>
+                                <button class="icon-btn" title="收藏" id="favoriteBtn">
+                                    <i data-lucide="heart"></i>
+                                </button>
+                                <button class="icon-btn" title="删除" id="deleteBtn">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnails -->
+                <div class="thumbnails-strip" id="thumbnailsStrip" style="display: none;">
+                    <!-- Thumbnails will be added dynamically -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Tabs Section -->
+        <section class="tabs-section fade-in-delay-3">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-feature="text2img">
+                    <i data-lucide="text-cursor-input"></i>
+                    文生图
+                </button>
+                <button class="tab-btn" data-feature="img2img">
+                    <i data-lucide="image-plus"></i>
+                    图生图
+                </button>
+                <button class="tab-btn" data-feature="faceswap">
+                    <i data-lucide="scan-face"></i>
+                    智能换头
+                </button>
+                <button class="tab-btn" data-feature="poster">
+                    <i data-lucide="layout-grid"></i>
+                    商品海报
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content active" id="text2img-content">
+                <!-- Same as main create panel - already visible -->
+            </div>
+
+            <div class="tab-content" id="img2img-content">
+                <div class="upload-zone" id="uploadZone">
+                    <i data-lucide="upload-cloud"></i>
+                    <h4>拖拽图片到这里或点击上传</h4>
+                    <p>支持 JPG、PNG、WebP 格式，最大 10MB</p>
+                    <input type="file" id="imageUpload" accept="image/*">
+                </div>
+                <div class="upload-preview" id="uploadPreview">
+                    <div class="upload-preview-item">
+                        <h5>
+                            <i data-lucide="image"></i>
+                            参考图片
+                        </h5>
+                        <div class="upload-image-container" id="referenceContainer">
+                            <img id="referenceImage" src="" alt="参考图片">
+                            <button class="remove-upload" id="removeReference">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 24px;">
+                    <label class="form-label">融合强度</label>
+                    <div class="slider-container">
+                        <input type="range" class="slider" id="blendSlider" min="0" max="100" value="50">
+                        <div class="slider-value" id="blendValue">50%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="faceswap-content">
+                <div class="upload-preview active" id="faceswapPreview">
+                    <div class="upload-preview-item">
+                        <h5>
+                            <i data-lucide="user"></i>
+                            原图（带人脸）
+                        </h5>
+                        <div class="upload-image-container" id="sourceContainer">
+                            <i data-lucide="user-plus" style="color: var(--text-muted);"></i>
+                        </div>
+                        <input type="file" id="sourceUpload" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="upload-preview-item">
+                        <h5>
+                            <i data-lucide="scan-face"></i>
+                            目标人脸
+                        </h5>
+                        <div class="upload-image-container" id="targetContainer">
+                            <i data-lucide="user-plus" style="color: var(--text-muted);"></i>
+                        </div>
+                        <input type="file" id="targetUpload" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <button class="btn btn-primary generate-btn" id="faceSwapBtn" style="margin-top: 24px; width: 100%;">
+                    <i data-lucide="refresh-cw"></i>
+                    <span class="btn-text">开始换脸</span>
+                </button>
+            </div>
+
+            <div class="tab-content" id="poster-content">
+                <div class="templates-grid" id="templatesGrid">
+                    <!-- Templates will be loaded -->
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section class="history-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="clock"></i>
+                    生成历史
+                </h2>
+                <button class="btn btn-ghost btn-sm">
+                    查看全部
+                    <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+            <div class="gallery-grid" id="historyGrid">
+                <!-- History cards will be loaded -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">
+            <i data-lucide="x"></i>
+        </button>
+        <img id="lightboxImage" src="" alt="全屏预览">
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // State
+        const state = {
+            currentStyle: 'photography',
+            currentRatio: '1:1',
+            quality: 2,
+            prompt: '',
+            negativePrompt: '',
+            generatedImages: [],
+            history: []
+        };
+
+        // Demo generated images
+        const demoImages = [
+            {
+                id: 1,
+                prompt: '精致的化妆品产品海报，浅色背景，高级感，商业摄影风格',
+                style: '商品海报',
+                time: '2分钟前',
+                url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&h=800&fit=crop'
+            },
+            {
+                id: 2,
+                prompt: '时尚运动鞋产品展示，暗色调，街头风格',
+                style: '3D渲染',
+                time: '5分钟前',
+                url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=800&fit=crop'
+            },
+            {
+                id: 3,
+                prompt: '智能手表特写，银色金属质感，科技感',
+                style: '摄影',
+                time: '10分钟前',
+                url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=800&fit=crop'
+            },
+            {
+                id: 4,
+                prompt: '高级香水瓶，水晶玻璃质感，梦幻光效',
+                style: '写实',
+                time: '15分钟前',
+                url: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&h=800&fit=crop'
+            },
+            {
+                id: 5,
+                prompt: '皮革手提包，暖色调，工作室照明',
+                style: '摄影',
+                time: '20分钟前',
+                url: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&h=800&fit=crop'
+            },
+            {
+                id: 6,
+                prompt: '无线耳机未来感设计，蓝色LED灯效',
+                style: '3D渲染',
+                time: '30分钟前',
+                url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=800&fit=crop'
+            }
+        ];
+
+        // Demo templates
+        const demoTemplates = [
+            { id: 1, name: '美妆产品', url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=533&fit=crop' },
+            { id: 2, name: '数码科技', url: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=533&fit=crop' },
+            { id: 3, name: '时尚服饰', url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=533&fit=crop' },
+            { id: 4, name: '家居生活', url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=533&fit=crop' },
+            { id: 5, name: '运动户外', url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=533&fit=crop' },
+            { id: 6, name: '食品饮料', url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=533&fit=crop' },
+            { id: 7, name: '珠宝配饰', url: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=533&fit=crop' },
+            { id: 8, name: '母婴用品', url: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=533&fit=crop' }
+        ];
+
+        // DOM Elements
+        const promptInput = document.getElementById('promptInput');
+        const charCount = document.getElementById('charCount');
+        const styleGrid = document.getElementById('styleGrid');
+        const aspectBtns = document.querySelectorAll('.aspect-btn');
+        const qualitySlider = document.getElementById('qualitySlider');
+        const qualityValue = document.getElementById('qualityValue');
+        const generateBtn = document.getElementById('generateBtn');
+        const previewMain = document.getElementById('previewMain');
+        const previewPlaceholder = document.getElementById('previewPlaceholder');
+        const previewImage = document.getElementById('previewImage');
+        const previewActions = document.getElementById('previewActions');
+        const thumbnailsStrip = document.getElementById('thumbnailsStrip');
+        const historyGrid = document.getElementById('historyGrid');
+        const templatesGrid = document.getElementById('templatesGrid');
+        const toastContainer = document.getElementById('toastContainer');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+
+        // Functions
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const iconMap = {
+                success: 'check-circle',
+                error: 'x-circle',
+                info: 'info'
+            };
+            toast.innerHTML = `
+                <i data-lucide="${iconMap[type]}"></i>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close"><i data-lucide="x"></i></button>
+            `;
+            toastContainer.appendChild(toast);
+            lucide.createIcons({ nodes: toast.querySelectorAll('[data-lucide]') });
+
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                toast.remove();
+            });
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function updateCharCount() {
+            charCount.textContent = promptInput.value.length;
+        }
+
+        function selectStyle(element) {
+            styleGrid.querySelectorAll('.style-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            element.classList.add('active');
+            state.currentStyle = element.dataset.style;
+        }
+
+        function selectAspect(element) {
+            aspectBtns.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            state.currentRatio = element.dataset.ratio;
+        }
+
+        function updateQuality() {
+            const labels = ['快速', '标准', '高清'];
+            qualityValue.textContent = labels[qualitySlider.value - 1];
+            state.quality = parseInt(qualitySlider.value);
+        }
+
+        async function generate() {
+            const prompt = promptInput.value.trim();
+            if (!prompt) {
+                showToast('请输入提示词', 'error');
+                return;
+            }
+
+            state.prompt = prompt;
+            generateBtn.classList.add('loading');
+
+            // Simulate generation
+            await new Promise(resolve => setTimeout(resolve, 2500));
+
+            // Use demo image
+            const randomImage = demoImages[Math.floor(Math.random() * demoImages.length)];
+            state.generatedImages = [randomImage.url];
+
+            // Update preview
+            previewPlaceholder.style.display = 'none';
+            previewImage.src = randomImage.url;
+            previewImage.style.display = 'block';
+            previewActions.style.display = 'flex';
+            previewMain.classList.add('has-image');
+
+            // Update thumbnails
+            thumbnailsStrip.style.display = 'flex';
+            thumbnailsStrip.innerHTML = `
+                <div class="thumbnail active">
+                    <img src="${randomImage.url}" alt="生成结果">
+                </div>
+            `;
+
+            generateBtn.classList.remove('loading');
+            showToast('图片生成成功！', 'success');
+
+            // Add to history
+            addToHistory(randomImage);
+        }
+
+        function addToHistory(item) {
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.innerHTML = `
+                <div class="gallery-card-image">
+                    <img src="${item.url}" alt="${item.prompt}">
+                    <div class="gallery-card-overlay">
+                        <button class="icon-btn" title="下载"><i data-lucide="download"></i></button>
+                        <button class="icon-btn" title="收藏"><i data-lucide="heart"></i></button>
+                        <button class="icon-btn" title="全屏"><i data-lucide="maximize-2"></i></button>
+                    </div>
+                </div>
+                <div class="gallery-card-info">
+                    <p class="gallery-card-prompt">${item.prompt}</p>
+                    <div class="gallery-card-meta">
+                        <span class="gallery-card-time">${item.time}</span>
+                        <span class="gallery-card-style">${item.style}</span>
+                    </div>
+                </div>
+            `;
+
+            card.querySelector('[title="全屏"]').addEventListener('click', () => {
+                openLightbox(item.url);
+            });
+
+            historyGrid.insertBefore(card, historyGrid.firstChild);
+        }
+
+        function openLightbox(url) {
+            lightboxImage.src = url;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        function loadHistory() {
+            demoImages.forEach(item => addToHistory(item));
+        }
+
+        function loadTemplates() {
+            templatesGrid.innerHTML = demoTemplates.map(template => `
+                <div class="template-card" data-id="${template.id}">
+                    <img src="${template.url}" alt="${template.name}">
+                    <div class="template-card-overlay">
+                        <span class="template-card-name">${template.name}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            templatesGrid.querySelectorAll('.template-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const template = demoTemplates.find(t => t.id === parseInt(card.dataset.id));
+                    promptInput.value = `使用${template.name}模板生成商品海报`;
+                    updateCharCount();
+                    showToast(`已选择「${template.name}」模板`, 'info');
+                });
+            });
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const feature = btn.dataset.feature;
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${feature}-content`).classList.add('active');
+            });
+        });
+
+        // Nav tab switching
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Event Listeners
+        promptInput.addEventListener('input', updateCharCount);
+
+        promptInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                generate();
+            }
+        });
+
+        styleGrid.querySelectorAll('.style-card').forEach(card => {
+            card.addEventListener('click', () => selectStyle(card));
+        });
+
+        aspectBtns.forEach(btn => {
+            btn.addEventListener('click', () => selectAspect(btn));
+        });
+
+        qualitySlider.addEventListener('input', updateQuality);
+
+        generateBtn.addEventListener('click', generate);
+
+        document.getElementById('enhanceBtn').addEventListener('click', () => {
+            const currentPrompt = promptInput.value.trim();
+            if (currentPrompt) {
+                promptInput.value = currentPrompt + '，8K超清，专业商业摄影风格，柔和自然光，高级质感';
+                updateCharCount();
+                showToast('提示词已优化', 'success');
+            } else {
+                showToast('请先输入提示词', 'info');
+            }
+        });
+
+        previewImage.addEventListener('click', () => {
+            openLightbox(previewImage.src);
+        });
+
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            showToast('图片下载中...', 'info');
+            setTimeout(() => showToast('图片下载成功！', 'success'), 1000);
+        });
+
+        // Upload zone
+        const uploadZone = document.getElementById('uploadZone');
+        const imageUpload = document.getElementById('imageUpload');
+        const uploadPreview = document.getElementById('uploadPreview');
+        const referenceImage = document.getElementById('referenceImage');
+        const referenceContainer = document.getElementById('referenceContainer');
+
+        uploadZone.addEventListener('click', () => imageUpload.click());
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = 'var(--accent-primary)';
+        });
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.style.borderColor = 'var(--border)';
+        });
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = 'var(--border)';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleImageUpload(file);
+            }
+        });
+
+        imageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageUpload(file);
+            }
+        });
+
+        function handleImageUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                referenceImage.src = e.target.result;
+                uploadZone.style.display = 'none';
+                uploadPreview.classList.add('active');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('removeReference').addEventListener('click', () => {
+            referenceImage.src = '';
+            uploadPreview.classList.remove('active');
+            uploadZone.style.display = 'block';
+        });
+
+        // Face swap
+        const sourceContainer = document.getElementById('sourceContainer');
+        const targetContainer = document.getElementById('targetContainer');
+        const sourceUpload = document.getElementById('sourceUpload');
+        const targetUpload = document.getElementById('targetUpload');
+
+        sourceContainer.addEventListener('click', () => sourceUpload.click());
+        targetContainer.addEventListener('click', () => targetUpload.click());
+
+        sourceUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    sourceContainer.innerHTML = `
+                        <img src="${e.target.result}" alt="原图" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        targetUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    targetContainer.innerHTML = `
+                        <img src="${e.target.result}" alt="目标人脸" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('faceSwapBtn').addEventListener('click', () => {
+            const sourceImg = sourceContainer.querySelector('img');
+            const targetImg = targetContainer.querySelector('img');
+
+            if (!sourceImg || !targetImg) {
+                showToast('请上传原图和目标人脸图片', 'error');
+                return;
+            }
+
+            document.getElementById('faceSwapBtn').classList.add('loading');
+            setTimeout(() => {
+                document.getElementById('faceSwapBtn').classList.remove('loading');
+                showToast('换脸成功！', 'success');
+            }, 2000);
+        });
+
+        // Blend slider
+        document.getElementById('blendSlider').addEventListener('input', (e) => {
+            document.getElementById('blendValue').textContent = e.target.value + '%';
+        });
+
+        // Initialize
+        loadHistory();
+        loadTemplates();
+        updateCharCount();
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
